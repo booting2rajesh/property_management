@@ -681,12 +681,25 @@ const Communications = () => {
                     )}
                   </div>
 
+                  {/* Success Message */}
+                  {isSuccess && (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4 flex items-center gap-2">
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <span className="text-green-800 font-medium">
+                        Message sent successfully to all recipients!
+                      </span>
+                    </div>
+                  )}
+
                   {/* Actions */}
                   <div className="flex gap-3 pt-4">
                     <Button variant="outline" className="flex-1">
                       Save as Draft
                     </Button>
-                    <Button className="flex-1 bg-primary hover:bg-primary/90">
+                    <Button
+                      className="flex-1 bg-primary hover:bg-primary/90"
+                      onClick={handleSendMessage}
+                    >
                       <Send className="w-4 h-4 mr-2" />
                       Send Message
                     </Button>
