@@ -92,12 +92,15 @@ const Communications = () => {
   const [isCreateTemplateOpen, setIsCreateTemplateOpen] = useState(false);
   const [editingTemplate, setEditingTemplate] = useState(null);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isDraftSaved, setIsDraftSaved] = useState(false);
   const [newTemplate, setNewTemplate] = useState({
     name: "",
     type: "",
     subject: "",
     content: "",
   });
+
+  const [drafts, setDrafts] = useState([]);
 
   const properties = [
     { id: 1, name: "Sunrise Apartments", units: ["A-101", "A-102", "A-103"] },
@@ -335,6 +338,27 @@ const Communications = () => {
     setEditingTemplate(null);
     setNewTemplate({ name: "", type: "", subject: "", content: "" });
     setIsCreateTemplateOpen(false);
+  };
+
+  const handleSaveAsDraft = () => {
+    if (!formData.subject && !formData.message) {
+      alert("Please add some content to save as draft");
+      return;
+    }
+
+    const draft = {
+      id: Date.now(),
+      sendTo: formData.sendTo,
+      selectedProperty: formData.selectedProperty,
+      selectedUnit: formData.selectedUnit,
+      subject: formData.subject,
+      message: formData.message,
+      savedAt: new Date().toISOString(),
+    };
+
+    setDrafts((prev) => [...prev, draft]);
+    setIsDraftSaved(true);
+    setTimeout(() => setIsDraftSaved(false), 3000);
   };
 
   return (
@@ -701,9 +725,23 @@ const Communications = () => {
                     </div>
                   )}
 
+                  {/* Draft Success Message */}
+                  {isDraftSaved && (
+                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex items-center gap-2">
+                      <CheckCircle className="w-5 h-5 text-blue-600" />
+                      <span className="text-blue-800 font-medium">
+                        Message saved as draft successfully!
+                      </span>
+                    </div>
+                  )}
+
                   {/* Actions */}
                   <div className="flex gap-3 pt-4">
-                    <Button variant="outline" className="flex-1">
+                    <Button
+                      variant="outline"
+                      className="flex-1"
+                      onClick={handleSaveAsDraft}
+                    >
                       Save as Draft
                     </Button>
                     <Button
