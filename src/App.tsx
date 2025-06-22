@@ -13,6 +13,7 @@ import OnlinePayment from "./pages/OnlinePayment";
 import Communications from "./pages/Communications";
 import RentAgreements from "./pages/RentAgreements";
 import ServiceRequests from "./pages/ServiceRequests";
+import ServiceDashboard from "./pages/ServiceDashboard";
 import AdminPortal from "./pages/AdminPortal";
 import NotFound from "./pages/NotFound";
 
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/communications" element={<Communications />} />
           <Route path="/rent-agreements" element={<RentAgreements />} />
           <Route path="/service-requests" element={<ServiceRequests />} />
+          <Route path="/service-dashboard" element={<ServiceDashboard />} />
           <Route path="/admin" element={<AdminPortal />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
