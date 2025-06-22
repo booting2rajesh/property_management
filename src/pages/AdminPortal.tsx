@@ -479,101 +479,41 @@ const AdminPortal = () => {
 
             <TabsContent value="permissions" className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Shield className="w-5 h-5 text-purple-600" />
-                      Owner Permissions
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div className="text-sm space-y-2">
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span>Full System Access</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span>Manage All Properties</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span>Manage All Users</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span>Financial Reports</span>
-                      </div>
-                    </div>
-                    <Button variant="outline" size="sm" className="w-full">
-                      Edit Permissions
-                    </Button>
-                  </CardContent>
-                </Card>
+                <EditablePermissionCard
+                  role="Owner"
+                  color="purple"
+                  permissions={[
+                    { name: "Full System Access", granted: true },
+                    { name: "Manage All Properties", granted: true },
+                    { name: "Manage All Users", granted: true },
+                    { name: "Financial Reports", granted: true },
+                    { name: "Admin Portal Access", granted: true },
+                  ]}
+                />
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Shield className="w-5 h-5 text-blue-600" />
-                      Admin Permissions
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div className="text-sm space-y-2">
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span>Manage Properties</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span>Manage Tenants</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span>Billing System</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                        <span>Limited User Access</span>
-                      </div>
-                    </div>
-                    <Button variant="outline" size="sm" className="w-full">
-                      Edit Permissions
-                    </Button>
-                  </CardContent>
-                </Card>
+                <EditablePermissionCard
+                  role="Admin"
+                  color="blue"
+                  permissions={[
+                    { name: "Manage Properties", granted: true },
+                    { name: "Manage Tenants", granted: true },
+                    { name: "Billing System", granted: true },
+                    { name: "Limited User Access", granted: false },
+                    { name: "Communications", granted: true },
+                  ]}
+                />
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Shield className="w-5 h-5 text-green-600" />
-                      Manager Permissions
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div className="text-sm space-y-2">
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span>View Properties</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <span>Manage Tenants</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                        <span>Basic Billing</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                        <span>No User Management</span>
-                      </div>
-                    </div>
-                    <Button variant="outline" size="sm" className="w-full">
-                      Edit Permissions
-                    </Button>
-                  </CardContent>
-                </Card>
+                <EditablePermissionCard
+                  role="Manager"
+                  color="green"
+                  permissions={[
+                    { name: "View Properties", granted: true },
+                    { name: "Manage Tenants", granted: true },
+                    { name: "Basic Billing", granted: false },
+                    { name: "No User Management", granted: false },
+                    { name: "View Reports", granted: true },
+                  ]}
+                />
               </div>
             </TabsContent>
           </Tabs>
