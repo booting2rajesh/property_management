@@ -62,6 +62,15 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // PropertyHub brand colors
+        success: "hsl(142 71% 45%)",
+        warning: "hsl(45 93% 47%)",
+        error: "hsl(0 84% 60%)",
+        info: "hsl(217 91% 60%)",
+        "success-bg": "hsl(142 76% 36%)",
+        "warning-bg": "hsl(45 93% 47%)",
+        "error-bg": "hsl(0 84% 60%)",
+        "info-bg": "hsl(217 91% 60%)",
       },
       borderRadius: {
         lg: "var(--radius)",
