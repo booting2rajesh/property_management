@@ -55,7 +55,7 @@ const AdminPortal = () => {
     },
   });
 
-  const users = [
+  const [users, setUsers] = useState([
     {
       id: 1,
       name: "John Owner",
@@ -76,7 +76,7 @@ const AdminPortal = () => {
       created: "2/1/2023",
       avatar: "",
     },
-  ];
+  ]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
@@ -97,7 +97,23 @@ const AdminPortal = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Add user:", formData);
+
+    // Create new user object
+    const newUser = {
+      id: users.length + 1,
+      name: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      role: formData.role,
+      status: "active",
+      created: new Date().toLocaleDateString(),
+      avatar: "",
+    };
+
+    // Add new user to the users list
+    setUsers((prevUsers) => [...prevUsers, newUser]);
+
+    // Close modal and reset form
     setIsAddModalOpen(false);
     setFormData({
       fullName: "",
