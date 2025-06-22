@@ -483,9 +483,16 @@ const Tenants = () => {
                       <Eye className="w-4 h-4 mr-2" />
                       View
                     </Button>
-                    <Button variant="outline" className="flex-1" size="sm">
-                      <Eye className="w-4 h-4 mr-2" />
-                      View
+                    <Button
+                      variant="outline"
+                      className="flex-1"
+                      size="sm"
+                      onClick={() =>
+                        (window.location.href = "/rent-agreements")
+                      }
+                    >
+                      <FileText className="w-4 h-4 mr-2" />
+                      Agreement
                     </Button>
                   </div>
                 </CardContent>
