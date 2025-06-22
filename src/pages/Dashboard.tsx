@@ -275,6 +275,9 @@ const Dashboard = () => {
                           size="sm"
                           variant="outline"
                           className="mt-2 border-red-300 text-red-700 hover:bg-red-50"
+                          onClick={() =>
+                            (window.location.href = "/service-dashboard")
+                          }
                         >
                           Review
                         </Button>
