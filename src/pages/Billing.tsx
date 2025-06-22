@@ -34,6 +34,7 @@ import {
   Download,
   Mail,
   MoreHorizontal,
+  QrCode,
 } from "lucide-react";
 
 const Billing = () => {
@@ -430,6 +431,13 @@ const Billing = () => {
                   </form>
                 </DialogContent>
               </Dialog>
+              <Button
+                variant="outline"
+                onClick={() => (window.location.href = "/online-payment")}
+              >
+                <QrCode className="w-4 h-4 mr-2" />
+                Online Payments
+              </Button>
             </div>
           }
         />
