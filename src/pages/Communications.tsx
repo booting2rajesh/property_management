@@ -40,6 +40,8 @@ import {
 const Communications = () => {
   const [formData, setFormData] = useState({
     sendTo: "all-tenants",
+    selectedProperty: "",
+    selectedUnit: "",
     template: "",
     subject: "",
     message: "",
@@ -51,6 +53,60 @@ const Communications = () => {
     scheduleForLater: false,
     scheduleDate: "",
   });
+
+  const [templates, setTemplates] = useState([
+    {
+      id: 1,
+      name: "Rent Reminder",
+      type: "rent-reminder",
+      subject: "Monthly Rent Payment Reminder",
+      content:
+        "Dear {tenant_name}, your rent of {amount} is due on {due_date}. Please pay at your earliest convenience.",
+    },
+    {
+      id: 2,
+      name: "Maintenance Notice",
+      type: "maintenance",
+      subject: "Scheduled Maintenance Notice",
+      content:
+        "Dear {tenant_name}, maintenance work is scheduled for {property_name} on {date}. Please plan accordingly.",
+    },
+    {
+      id: 3,
+      name: "Lease Renewal",
+      type: "lease-renewal",
+      subject: "Lease Renewal Notice",
+      content:
+        "Dear {tenant_name}, your lease for {unit} expires on {date}. Please contact us for renewal.",
+    },
+    {
+      id: 4,
+      name: "Welcome Message",
+      type: "welcome",
+      subject: "Welcome to {property_name}",
+      content:
+        "Welcome {tenant_name}! We're excited to have you at {property_name}. Please find attached important information.",
+    },
+  ]);
+
+  const [isCreateTemplateOpen, setIsCreateTemplateOpen] = useState(false);
+  const [editingTemplate, setEditingTemplate] = useState(null);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [newTemplate, setNewTemplate] = useState({
+    name: "",
+    type: "",
+    subject: "",
+    content: "",
+  });
+
+  const properties = [
+    { id: 1, name: "Sunrise Apartments", units: ["A-101", "A-102", "A-103"] },
+    {
+      id: 2,
+      name: "Green Valley Residency",
+      units: ["B-201", "B-202", "B-203"],
+    },
+  ];
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -77,6 +133,208 @@ const Communications = () => {
         [field]: checked,
       }));
     }
+  };
+
+  const handleSendToChange = (value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      sendTo: value,
+      selectedProperty: "",
+      selectedUnit: "",
+    }));
+  };
+
+  const handleTemplateSelect = (templateType: string) => {
+    const template = templates.find((t) => t.type === templateType);
+    if (template) {
+      setFormData((prev) => ({
+        ...prev,
+        template: templateType,
+        subject: template.subject,
+        message: template.content,
+      }));
+    }
+  };
+
+  const sendEmail = async (emailData: any) => {
+    try {
+      // Initialize EmailJS (you'll need to replace with your keys)
+      await emailjs.send(
+        "YOUR_SERVICE_ID",
+        "YOUR_TEMPLATE_ID",
+        emailData,
+        "YOUR_PUBLIC_KEY",
+      );
+      return true;
+    } catch (error) {
+      console.log("Email failed:", error);
+      return false;
+    }
+  };
+
+  const sendSMS = async (phoneNumber: string, message: string) => {
+    try {
+      // Replace with your SMS API
+      const response = await fetch("/api/send-sms", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: phoneNumber, message }),
+      });
+      return response.ok;
+    } catch (error) {
+      console.log("SMS failed:", error);
+      return false;
+    }
+  };
+
+  const sendWhatsApp = async (phoneNumber: string, message: string) => {
+    try {
+      // Replace with your WhatsApp API
+      const response = await fetch("/api/send-whatsapp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phone: phoneNumber, message }),
+      });
+      return response.ok;
+    } catch (error) {
+      console.log("WhatsApp failed:", error);
+      return false;
+    }
+  };
+
+  const handleSendMessage = async () => {
+    if (!formData.subject || !formData.message) {
+      alert("Please fill in subject and message");
+      return;
+    }
+
+    const recipients = getRecipients();
+    const promises = [];
+
+    for (const recipient of recipients) {
+      if (formData.sendVia.email) {
+        promises.push(
+          sendEmail({
+            to_email: recipient.email,
+            to_name: recipient.name,
+            subject: formData.subject,
+            message: formData.message,
+          }),
+        );
+      }
+
+      if (formData.sendVia.sms) {
+        promises.push(sendSMS(recipient.phone, formData.message));
+      }
+
+      if (formData.sendVia.whatsapp) {
+        promises.push(sendWhatsApp(recipient.phone, formData.message));
+      }
+    }
+
+    try {
+      await Promise.all(promises);
+      setIsSuccess(true);
+      setTimeout(() => setIsSuccess(false), 3000);
+
+      // Reset form
+      setFormData({
+        sendTo: "all-tenants",
+        selectedProperty: "",
+        selectedUnit: "",
+        template: "",
+        subject: "",
+        message: "",
+        sendVia: { email: true, sms: false, whatsapp: false },
+        scheduleForLater: false,
+        scheduleDate: "",
+      });
+    } catch (error) {
+      alert("Failed to send some messages");
+    }
+  };
+
+  const getRecipients = () => {
+    // Mock recipient data - replace with actual data
+    const allTenants = [
+      { name: "Raj Kumar", email: "raj@example.com", phone: "+919876543210" },
+      {
+        name: "Priya Sharma",
+        email: "priya@example.com",
+        phone: "+919876543211",
+      },
+    ];
+
+    if (formData.sendTo === "all-tenants") {
+      return allTenants;
+    } else if (
+      formData.sendTo === "property-wise" &&
+      formData.selectedProperty
+    ) {
+      return allTenants.filter((tenant) => {
+        // Filter by property logic here
+        return true;
+      });
+    } else if (formData.sendTo === "unit-wise" && formData.selectedUnit) {
+      return allTenants.filter((tenant) => {
+        // Filter by unit logic here
+        return true;
+      });
+    }
+
+    return [];
+  };
+
+  const handleCreateTemplate = () => {
+    if (!newTemplate.name || !newTemplate.subject || !newTemplate.content) {
+      alert("Please fill all template fields");
+      return;
+    }
+
+    const template = {
+      id: templates.length + 1,
+      name: newTemplate.name,
+      type:
+        newTemplate.type || newTemplate.name.toLowerCase().replace(/\s+/g, "-"),
+      subject: newTemplate.subject,
+      content: newTemplate.content,
+    };
+
+    setTemplates((prev) => [...prev, template]);
+    setNewTemplate({ name: "", type: "", subject: "", content: "" });
+    setIsCreateTemplateOpen(false);
+  };
+
+  const handleEditTemplate = (template: any) => {
+    setEditingTemplate(template);
+    setNewTemplate({
+      name: template.name,
+      type: template.type,
+      subject: template.subject,
+      content: template.content,
+    });
+    setIsCreateTemplateOpen(true);
+  };
+
+  const handleUpdateTemplate = () => {
+    if (!editingTemplate) return;
+
+    setTemplates((prev) =>
+      prev.map((t) =>
+        t.id === editingTemplate.id
+          ? {
+              ...t,
+              name: newTemplate.name,
+              subject: newTemplate.subject,
+              content: newTemplate.content,
+            }
+          : t,
+      ),
+    );
+
+    setEditingTemplate(null);
+    setNewTemplate({ name: "", type: "", subject: "", content: "" });
+    setIsCreateTemplateOpen(false);
   };
 
   return (
