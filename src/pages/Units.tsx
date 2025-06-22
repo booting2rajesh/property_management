@@ -49,7 +49,7 @@ const Units = () => {
     occupancyRate: 85,
   };
 
-  const units = [
+  const [units, setUnits] = useState([
     {
       id: 1,
       unitNumber: "A-101",
@@ -78,7 +78,7 @@ const Units = () => {
       image:
         "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=300&h=200&fit=crop",
     },
-  ];
+  ]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
@@ -89,7 +89,21 @@ const Units = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Add unit:", formData);
+
+    const newUnit = {
+      id: units.length + 1,
+      unitNumber: formData.unitNumber,
+      type: formData.type,
+      size: `${formData.size} sq ft`,
+      floor: parseInt(formData.floor),
+      rent: `₹${formData.rent}`,
+      status: "vacant",
+      amenities: ["Balcony", "Modular Kitchen"],
+      image:
+        "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=300&h=200&fit=crop",
+    };
+
+    setUnits((prev) => [...prev, newUnit]);
     setIsAddModalOpen(false);
     setFormData({
       unitNumber: "",
