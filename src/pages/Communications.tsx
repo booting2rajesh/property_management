@@ -370,7 +370,10 @@ const Communications = () => {
           title="Communication Center"
           subtitle="Send notifications and manage communication templates"
           actions={
-            <Button className="bg-primary hover:bg-primary/90">
+            <Button
+              className="bg-primary hover:bg-primary/90"
+              onClick={() => setIsCreateTemplateOpen(true)}
+            >
               <Plus className="w-4 h-4 mr-2" />
               New Template
             </Button>
