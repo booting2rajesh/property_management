@@ -935,6 +935,227 @@ OWNER: ________________    TENANT: ________________`,
               </p>
             </div>
           )}
+
+          {/* View Agreement Modal */}
+          <Dialog
+            open={isViewAgreementOpen}
+            onOpenChange={setIsViewAgreementOpen}
+          >
+            <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>
+                  View Agreement - {selectedAgreement?.agreementNumber}
+                </DialogTitle>
+              </DialogHeader>
+              {selectedAgreement && (
+                <div className="space-y-6">
+                  <div className="bg-white p-6 border rounded-lg">
+                    <div className="text-center mb-6">
+                      <h2 className="text-2xl font-bold text-primary">
+                        RENT AGREEMENT
+                      </h2>
+                      <p className="text-gray-600">
+                        Agreement Number: {selectedAgreement.agreementNumber}
+                      </p>
+                    </div>
+
+                    <div className="space-y-4 text-sm">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="font-semibold">LESSOR:</p>
+                          <p>PropertyHub Management</p>
+                          <p>123 Main Street, Bangalore</p>
+                        </div>
+                        <div>
+                          <p className="font-semibold">LESSEE:</p>
+                          <p>{selectedAgreement.tenant.name}</p>
+                          <p>{selectedAgreement.tenant.email}</p>
+                        </div>
+                      </div>
+
+                      <div className="border-t pt-4">
+                        <p className="font-semibold mb-2">PROPERTY DETAILS:</p>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <p>Unit: {selectedAgreement.unit}</p>
+                            <p>Property: {selectedAgreement.property}</p>
+                          </div>
+                          <div>
+                            <p>
+                              Monthly Rent: ₹
+                              {selectedAgreement.monthlyRent.toLocaleString()}
+                            </p>
+                            <p>
+                              Security Deposit: ₹
+                              {selectedAgreement.deposit.toLocaleString()}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="border-t pt-4">
+                        <p className="font-semibold mb-2">AGREEMENT PERIOD:</p>
+                        <p>From: {formatDate(selectedAgreement.startDate)}</p>
+                        <p>To: {formatDate(selectedAgreement.endDate)}</p>
+                        <p>Type: {selectedAgreement.agreementType}</p>
+                      </div>
+
+                      <div className="border-t pt-4">
+                        <p className="font-semibold mb-2">
+                          TERMS & CONDITIONS:
+                        </p>
+                        <ul className="list-disc list-inside space-y-1">
+                          <li>Monthly rent to be paid by 5th of each month</li>
+                          <li>Security deposit refundable at end of tenancy</li>
+                          <li>Tenant responsible for daily maintenance</li>
+                          <li>30 days notice required for termination</li>
+                          <li>No subletting without written permission</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      className="flex-1"
+                      onClick={() => setIsViewAgreementOpen(false)}
+                    >
+                      Close
+                    </Button>
+                    <Button
+                      className="flex-1"
+                      onClick={() =>
+                        downloadAgreement(selectedAgreement, "pdf")
+                      }
+                    >
+                      <Download className="w-4 h-4 mr-2" />
+                      Download PDF
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </DialogContent>
+          </Dialog>
+
+          {/* Edit Agreement Modal */}
+          <Dialog
+            open={isEditAgreementOpen}
+            onOpenChange={setIsEditAgreementOpen}
+          >
+            <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>
+                  Edit Agreement - {editingAgreement?.agreementNumber}
+                </DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleUpdateAgreement} className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="editStartDate">Start Date</Label>
+                    <Input
+                      id="editStartDate"
+                      type="date"
+                      value={agreementFormData.startDate}
+                      onChange={(e) =>
+                        setAgreementFormData((prev) => ({
+                          ...prev,
+                          startDate: e.target.value,
+                        }))
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="editEndDate">End Date</Label>
+                    <Input
+                      id="editEndDate"
+                      type="date"
+                      value={agreementFormData.endDate}
+                      onChange={(e) =>
+                        setAgreementFormData((prev) => ({
+                          ...prev,
+                          endDate: e.target.value,
+                        }))
+                      }
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="editMonthlyRent">Monthly Rent (₹)</Label>
+                    <Input
+                      id="editMonthlyRent"
+                      placeholder="Enter monthly rent"
+                      value={agreementFormData.monthlyRent}
+                      onChange={(e) =>
+                        setAgreementFormData((prev) => ({
+                          ...prev,
+                          monthlyRent: e.target.value,
+                        }))
+                      }
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="editDeposit">Security Deposit (₹)</Label>
+                    <Input
+                      id="editDeposit"
+                      placeholder="Enter security deposit"
+                      value={agreementFormData.deposit}
+                      onChange={(e) =>
+                        setAgreementFormData((prev) => ({
+                          ...prev,
+                          deposit: e.target.value,
+                        }))
+                      }
+                      required
+                    />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="editAgreementType">Agreement Type</Label>
+                  <Select
+                    value={agreementFormData.agreementType}
+                    onValueChange={(value) =>
+                      setAgreementFormData((prev) => ({
+                        ...prev,
+                        agreementType: value,
+                      }))
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select agreement type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="11-month">
+                        11 Month Agreement
+                      </SelectItem>
+                      <SelectItem value="yearly">Yearly Agreement</SelectItem>
+                      <SelectItem value="monthly">Monthly Agreement</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex gap-2 pt-4">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="flex-1"
+                    onClick={() => setIsEditAgreementOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="flex-1 bg-primary hover:bg-primary/90"
+                  >
+                    Update Agreement
+                  </Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
         </main>
       </div>
     </div>
