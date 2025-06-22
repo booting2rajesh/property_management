@@ -545,24 +545,17 @@ const Communications = () => {
                     <Label htmlFor="template">Use Template (Optional)</Label>
                     <Select
                       value={formData.template}
-                      onValueChange={(value) =>
-                        setFormData((prev) => ({ ...prev, template: value }))
-                      }
+                      onValueChange={handleTemplateSelect}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select Template" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="rent-reminder">
-                          Rent Reminder
-                        </SelectItem>
-                        <SelectItem value="maintenance">
-                          Maintenance Notice
-                        </SelectItem>
-                        <SelectItem value="lease-renewal">
-                          Lease Renewal
-                        </SelectItem>
-                        <SelectItem value="welcome">Welcome Message</SelectItem>
+                        {templates.map((template) => (
+                          <SelectItem key={template.id} value={template.type}>
+                            {template.name}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
