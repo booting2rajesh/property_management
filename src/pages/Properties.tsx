@@ -142,8 +142,13 @@ const Properties = () => {
     });
   };
 
-  const filteredProperties = properties.filter((property) =>
-    property.name.toLowerCase().includes(searchTerm.toLowerCase()),
+  const filteredProperties = properties.filter(
+    (property) =>
+      property.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      property.address.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      property.amenities.some((amenity) =>
+        amenity.toLowerCase().includes(searchTerm.toLowerCase()),
+      ),
   );
 
   return (
