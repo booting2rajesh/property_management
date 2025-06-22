@@ -710,121 +710,172 @@ const Communications = () => {
 
             <TabsContent value="templates" className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Rent Reminder</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600 mb-4">
-                      Standard template for monthly rent reminders with due date
-                      and amount details.
-                    </p>
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm" className="flex-1">
-                        Edit
-                      </Button>
-                      <Button size="sm" className="flex-1">
-                        Use Template
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                {templates.map((template) => (
+                  <Card key={template.id}>
+                    <CardHeader>
+                      <CardTitle className="text-lg">{template.name}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-sm text-gray-600 mb-4">
+                        {template.content.substring(0, 100)}...
+                      </p>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="flex-1"
+                          onClick={() => handleEditTemplate(template)}
+                        >
+                          <Edit className="w-4 h-4 mr-1" />
+                          Edit
+                        </Button>
+                        <Button
+                          size="sm"
+                          className="flex-1"
+                          onClick={() => handleTemplateSelect(template.type)}
+                        >
+                          Use Template
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">
-                      Maintenance Notice
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600 mb-4">
-                      Template for notifying tenants about scheduled maintenance
-                      work and timing.
-                    </p>
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm" className="flex-1">
-                        Edit
-                      </Button>
-                      <Button size="sm" className="flex-1">
-                        Use Template
-                      </Button>
+                <Dialog
+                  open={isCreateTemplateOpen}
+                  onOpenChange={setIsCreateTemplateOpen}
+                >
+                  <DialogTrigger asChild>
+                    <Card className="border-2 border-dashed border-gray-300 cursor-pointer hover:border-gray-400">
+                      <CardContent className="p-6 flex flex-col items-center justify-center h-full">
+                        <Plus className="w-8 h-8 text-gray-400 mb-2" />
+                        <p className="text-sm text-gray-500 mb-3">
+                          Create New Template
+                        </p>
+                        <Button size="sm" variant="outline">
+                          Add Template
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-[600px]">
+                    <DialogHeader>
+                      <DialogTitle>
+                        {editingTemplate
+                          ? "Edit Template"
+                          : "Create New Template"}
+                      </DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="templateName">Template Name</Label>
+                        <Input
+                          id="templateName"
+                          placeholder="Enter template name"
+                          value={newTemplate.name}
+                          onChange={(e) =>
+                            setNewTemplate((prev) => ({
+                              ...prev,
+                              name: e.target.value,
+                            }))
+                          }
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="templateType">Template Type</Label>
+                        <Select
+                          value={newTemplate.type}
+                          onValueChange={(value) =>
+                            setNewTemplate((prev) => ({ ...prev, type: value }))
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="rent-reminder">
+                              Rent Reminder
+                            </SelectItem>
+                            <SelectItem value="maintenance">
+                              Maintenance Notice
+                            </SelectItem>
+                            <SelectItem value="lease-renewal">
+                              Lease Renewal
+                            </SelectItem>
+                            <SelectItem value="welcome">
+                              Welcome Message
+                            </SelectItem>
+                            <SelectItem value="payment-confirmation">
+                              Payment Confirmation
+                            </SelectItem>
+                            <SelectItem value="general">
+                              General Notice
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="templateSubject">Subject</Label>
+                        <Input
+                          id="templateSubject"
+                          placeholder="Enter subject"
+                          value={newTemplate.subject}
+                          onChange={(e) =>
+                            setNewTemplate((prev) => ({
+                              ...prev,
+                              subject: e.target.value,
+                            }))
+                          }
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="templateContent">Content</Label>
+                        <Textarea
+                          id="templateContent"
+                          placeholder="Enter template content. Use {tenant_name}, {property_name}, {amount}, etc. for dynamic values"
+                          rows={6}
+                          value={newTemplate.content}
+                          onChange={(e) =>
+                            setNewTemplate((prev) => ({
+                              ...prev,
+                              content: e.target.value,
+                            }))
+                          }
+                        />
+                      </div>
+                      <div className="flex gap-3 pt-4">
+                        <Button
+                          variant="outline"
+                          className="flex-1"
+                          onClick={() => {
+                            setIsCreateTemplateOpen(false);
+                            setEditingTemplate(null);
+                            setNewTemplate({
+                              name: "",
+                              type: "",
+                              subject: "",
+                              content: "",
+                            });
+                          }}
+                        >
+                          Cancel
+                        </Button>
+                        <Button
+                          className="flex-1 bg-primary hover:bg-primary/90"
+                          onClick={
+                            editingTemplate
+                              ? handleUpdateTemplate
+                              : handleCreateTemplate
+                          }
+                        >
+                          {editingTemplate
+                            ? "Update Template"
+                            : "Create Template"}
+                        </Button>
+                      </div>
                     </div>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Lease Renewal</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600 mb-4">
-                      Template for lease renewal notifications with terms and
-                      conditions updates.
-                    </p>
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm" className="flex-1">
-                        Edit
-                      </Button>
-                      <Button size="sm" className="flex-1">
-                        Use Template
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Welcome Message</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600 mb-4">
-                      Welcome template for new tenants with property guidelines
-                      and contact information.
-                    </p>
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm" className="flex-1">
-                        Edit
-                      </Button>
-                      <Button size="sm" className="flex-1">
-                        Use Template
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">
-                      Payment Confirmation
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-gray-600 mb-4">
-                      Template for confirming rent payments and providing
-                      receipt details.
-                    </p>
-                    <div className="flex gap-2">
-                      <Button variant="outline" size="sm" className="flex-1">
-                        Edit
-                      </Button>
-                      <Button size="sm" className="flex-1">
-                        Use Template
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                <Card className="border-2 border-dashed border-gray-300">
-                  <CardContent className="p-6 flex flex-col items-center justify-center h-full">
-                    <Plus className="w-8 h-8 text-gray-400 mb-2" />
-                    <p className="text-sm text-gray-500 mb-3">
-                      Create New Template
-                    </p>
-                    <Button size="sm" variant="outline">
-                      Add Template
-                    </Button>
-                  </CardContent>
-                </Card>
+                  </DialogContent>
+                </Dialog>
               </div>
             </TabsContent>
           </Tabs>
