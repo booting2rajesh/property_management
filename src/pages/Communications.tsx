@@ -379,7 +379,7 @@ const Communications = () => {
 
         <main className="p-6">
           <Tabs defaultValue="send-message" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-2 bg-gray-100 p-1 rounded-lg">
+            <TabsList className="grid w-full grid-cols-3 bg-gray-100 p-1 rounded-lg">
               <TabsTrigger
                 value="send-message"
                 className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
@@ -391,6 +391,12 @@ const Communications = () => {
                 className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
               >
                 Templates
+              </TabsTrigger>
+              <TabsTrigger
+                value="drafts"
+                className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
+              >
+                Drafts ({drafts.length})
               </TabsTrigger>
             </TabsList>
 
@@ -924,6 +930,106 @@ const Communications = () => {
                     </div>
                   </DialogContent>
                 </Dialog>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="drafts" className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {drafts.map((draft) => (
+                  <Card key={draft.id}>
+                    <CardHeader>
+                      <CardTitle className="text-lg">
+                        {draft.subject || "Untitled Draft"}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        <div>
+                          <p className="text-sm text-gray-500">Send To</p>
+                          <p className="font-medium capitalize">
+                            {draft.sendTo.replace("-", " ")}
+                          </p>
+                          {draft.selectedProperty && (
+                            <p className="text-sm text-gray-600">
+                              {draft.selectedProperty}
+                            </p>
+                          )}
+                          {draft.selectedUnit && (
+                            <p className="text-sm text-gray-600">
+                              {draft.selectedUnit}
+                            </p>
+                          )}
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-500">
+                            Message Preview
+                          </p>
+                          <p className="text-sm text-gray-700 line-clamp-3">
+                            {draft.message.substring(0, 100)}...
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-sm text-gray-500">Saved</p>
+                          <p className="text-sm font-medium">
+                            {new Date(draft.savedAt).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "short",
+                                day: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              },
+                            )}
+                          </p>
+                        </div>
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            className="flex-1"
+                            onClick={() => {
+                              // Load draft into form
+                              setFormData((prev) => ({
+                                ...prev,
+                                sendTo: draft.sendTo,
+                                selectedProperty: draft.selectedProperty,
+                                selectedUnit: draft.selectedUnit,
+                                subject: draft.subject,
+                                message: draft.message,
+                              }));
+                              // Remove from drafts
+                              setDrafts((prev) =>
+                                prev.filter((d) => d.id !== draft.id),
+                              );
+                            }}
+                          >
+                            Continue Editing
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => {
+                              setDrafts((prev) =>
+                                prev.filter((d) => d.id !== draft.id),
+                              );
+                            }}
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+
+                {drafts.length === 0 && (
+                  <div className="col-span-full text-center py-12">
+                    <p className="text-gray-500">No drafts saved yet.</p>
+                    <p className="text-sm text-gray-400 mt-2">
+                      Save messages as drafts to continue working on them later.
+                    </p>
+                  </div>
+                )}
               </div>
             </TabsContent>
           </Tabs>
