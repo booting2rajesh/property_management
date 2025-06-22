@@ -624,7 +624,14 @@ const Billing = () => {
                         </td>
                         <td className="py-4 px-4">
                           <div className="flex gap-1">
-                            <Button size="sm" variant="ghost" title="View Bill">
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              title="View Bill"
+                              onClick={() =>
+                                (window.location.href = `/billing/${bill.id}`)
+                              }
+                            >
                               <Eye className="w-4 h-4" />
                             </Button>
                             <Button
