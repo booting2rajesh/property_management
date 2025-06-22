@@ -9,6 +9,7 @@ import Tenants from "./pages/Tenants";
 import TenantHistory from "./pages/TenantHistory";
 import Billing from "./pages/Billing";
 import BillDetails from "./pages/BillDetails";
+import OnlinePayment from "./pages/OnlinePayment";
 import Communications from "./pages/Communications";
 import RentAgreements from "./pages/RentAgreements";
 import ServiceRequests from "./pages/ServiceRequests";
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/tenant-history" element={<TenantHistory />} />
           <Route path="/billing" element={<Billing />} />
           <Route path="/billing/:id" element={<BillDetails />} />
+          <Route path="/online-payment" element={<OnlinePayment />} />
           <Route path="/communications" element={<Communications />} />
           <Route path="/rent-agreements" element={<RentAgreements />} />
           <Route path="/service-requests" element={<ServiceRequests />} />
