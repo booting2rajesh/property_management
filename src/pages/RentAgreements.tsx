@@ -42,6 +42,12 @@ const RentAgreements = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [isCreateAgreementOpen, setIsCreateAgreementOpen] = useState(false);
+  const [isViewAgreementOpen, setIsViewAgreementOpen] = useState(false);
+  const [isEditAgreementOpen, setIsEditAgreementOpen] = useState(false);
+  const [isTemplateModalOpen, setIsTemplateModalOpen] = useState(false);
+  const [selectedAgreement, setSelectedAgreement] = useState(null);
+  const [editingAgreement, setEditingAgreement] = useState(null);
+
   const [agreementFormData, setAgreementFormData] = useState({
     tenant: "",
     unit: "",
@@ -51,6 +57,76 @@ const RentAgreements = () => {
     deposit: "",
     agreementType: "",
     specialTerms: "",
+  });
+
+  const [agreementTemplates, setAgreementTemplates] = useState([
+    {
+      id: 1,
+      name: "Standard 11-Month Agreement",
+      type: "11-month",
+      content: `RENT AGREEMENT
+
+This Rent Agreement is made on {agreement_date} between:
+
+LESSOR: PropertyHub Management
+Address: {property_address}
+
+LESSEE: {tenant_name}
+Address: {tenant_address}
+
+PROPERTY DETAILS:
+Unit: {unit_number}
+Property: {property_name}
+Address: {property_address}
+
+TERMS AND CONDITIONS:
+
+1. RENT: The monthly rent is ₹{monthly_rent} to be paid by {due_date} each month.
+
+2. SECURITY DEPOSIT: ₹{security_deposit} paid as security deposit.
+
+3. AGREEMENT PERIOD: From {start_date} to {end_date}.
+
+4. MAINTENANCE: Tenant responsible for daily maintenance.
+
+5. TERMINATION: Either party can terminate with 30 days notice.
+
+{special_terms}
+
+LESSOR SIGNATURE: ________________    LESSEE SIGNATURE: ________________
+
+Date: {agreement_date}                Date: {agreement_date}`,
+      createdDate: "2024-01-01",
+    },
+    {
+      id: 2,
+      name: "Monthly Rental Agreement",
+      type: "monthly",
+      content: `MONTHLY RENT AGREEMENT
+
+This Monthly Rent Agreement is effective from {start_date} between:
+
+OWNER: PropertyHub Management
+TENANT: {tenant_name}
+
+PROPERTY: {unit_number}, {property_name}
+MONTHLY RENT: ₹{monthly_rent}
+SECURITY DEPOSIT: ₹{security_deposit}
+
+This agreement is renewable monthly with mutual consent.
+
+{special_terms}
+
+SIGNATURES:
+OWNER: ________________    TENANT: ________________`,
+      createdDate: "2024-01-01",
+    },
+  ]);
+
+  const [newTemplate, setNewTemplate] = useState({
+    name: "",
+    type: "",
+    content: "",
   });
 
   const [agreements, setAgreements] = useState([
@@ -216,6 +292,123 @@ const RentAgreements = () => {
     alert("Agreement sent for signature via Zoho Sign!");
   };
 
+  const viewAgreement = (agreement: any) => {
+    setSelectedAgreement(agreement);
+    setIsViewAgreementOpen(true);
+  };
+
+  const editAgreement = (agreement: any) => {
+    setEditingAgreement(agreement);
+    setAgreementFormData({
+      tenant: agreement.tenant.name,
+      unit: agreement.unit,
+      startDate: agreement.startDate,
+      endDate: agreement.endDate,
+      monthlyRent: agreement.monthlyRent.toString(),
+      deposit: agreement.deposit.toString(),
+      agreementType: agreement.agreementType,
+      specialTerms: "",
+    });
+    setIsEditAgreementOpen(true);
+  };
+
+  const downloadAgreement = (agreement: any, format: "pdf" | "docx") => {
+    // Generate agreement content from template
+    const template = agreementTemplates.find(
+      (t) => t.type === agreement.agreementType,
+    );
+    if (!template) return;
+
+    let content = template.content
+      .replace(/{tenant_name}/g, agreement.tenant.name)
+      .replace(/{unit_number}/g, agreement.unit)
+      .replace(/{property_name}/g, agreement.property)
+      .replace(/{monthly_rent}/g, agreement.monthlyRent.toLocaleString())
+      .replace(/{security_deposit}/g, agreement.deposit.toLocaleString())
+      .replace(/{start_date}/g, formatDate(agreement.startDate))
+      .replace(/{end_date}/g, formatDate(agreement.endDate))
+      .replace(/{agreement_date}/g, formatDate(agreement.createdDate))
+      .replace(/{special_terms}/g, "")
+      .replace(/{property_address}/g, "123 Main Street, Bangalore")
+      .replace(/{tenant_address}/g, "Tenant Address")
+      .replace(/{due_date}/g, "5th");
+
+    if (format === "pdf") {
+      // In a real application, you'd use a PDF library like jsPDF
+      const blob = new Blob([content], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${agreement.agreementNumber}.txt`;
+      link.click();
+      URL.revokeObjectURL(url);
+      alert(
+        "Agreement downloaded as text file (PDF generation requires additional library)",
+      );
+    } else {
+      // In a real application, you'd use a DOCX library like docx
+      const blob = new Blob([content], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${agreement.agreementNumber}.txt`;
+      link.click();
+      URL.revokeObjectURL(url);
+      alert(
+        "Agreement downloaded as text file (DOCX generation requires additional library)",
+      );
+    }
+  };
+
+  const handleUpdateAgreement = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingAgreement) return;
+
+    setAgreements((prev) =>
+      prev.map((agreement) =>
+        agreement.id === editingAgreement.id
+          ? {
+              ...agreement,
+              startDate: agreementFormData.startDate,
+              endDate: agreementFormData.endDate,
+              monthlyRent: parseInt(agreementFormData.monthlyRent),
+              deposit: parseInt(agreementFormData.deposit),
+              agreementType: agreementFormData.agreementType,
+            }
+          : agreement,
+      ),
+    );
+
+    setIsEditAgreementOpen(false);
+    setEditingAgreement(null);
+    setAgreementFormData({
+      tenant: "",
+      unit: "",
+      startDate: "",
+      endDate: "",
+      monthlyRent: "",
+      deposit: "",
+      agreementType: "",
+      specialTerms: "",
+    });
+  };
+
+  const handleCreateTemplate = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const template = {
+      id: agreementTemplates.length + 1,
+      name: newTemplate.name,
+      type: newTemplate.type,
+      content: newTemplate.content,
+      createdDate: new Date().toISOString().split("T")[0],
+    };
+
+    setAgreementTemplates((prev) => [...prev, template]);
+    setNewTemplate({ name: "", type: "", content: "" });
+    setIsTemplateModalOpen(false);
+  };
+
   return (
     <div className="flex h-screen bg-gray-50">
       <Sidebar currentPath="/rent-agreements" />
@@ -247,6 +440,149 @@ const RentAgreements = () => {
                   <SelectItem value="expired">Expired</SelectItem>
                 </SelectContent>
               </Select>
+              <Dialog
+                open={isTemplateModalOpen}
+                onOpenChange={setIsTemplateModalOpen}
+              >
+                <DialogTrigger asChild>
+                  <Button variant="outline">
+                    <FileText className="w-4 h-4 mr-2" />
+                    Manage Templates
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Agreement Templates</DialogTitle>
+                  </DialogHeader>
+                  <Tabs defaultValue="templates" className="space-y-4">
+                    <TabsList className="grid w-full grid-cols-2">
+                      <TabsTrigger value="templates">Templates</TabsTrigger>
+                      <TabsTrigger value="create">Create New</TabsTrigger>
+                    </TabsList>
+
+                    <TabsContent value="templates" className="space-y-4">
+                      {agreementTemplates.map((template) => (
+                        <Card key={template.id}>
+                          <CardHeader>
+                            <CardTitle className="text-lg">
+                              {template.name}
+                            </CardTitle>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="space-y-2">
+                              <p className="text-sm text-gray-600">
+                                Type: {template.type}
+                              </p>
+                              <p className="text-sm text-gray-600">
+                                Created: {formatDate(template.createdDate)}
+                              </p>
+                              <div className="bg-gray-50 p-3 rounded text-sm max-h-32 overflow-y-auto">
+                                {template.content.substring(0, 200)}...
+                              </div>
+                              <div className="flex gap-2">
+                                <Button size="sm" variant="outline">
+                                  Edit
+                                </Button>
+                                <Button size="sm" variant="outline">
+                                  Download
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  className="text-red-600"
+                                >
+                                  Delete
+                                </Button>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </TabsContent>
+
+                    <TabsContent value="create" className="space-y-4">
+                      <form
+                        onSubmit={handleCreateTemplate}
+                        className="space-y-4"
+                      >
+                        <div className="space-y-2">
+                          <Label htmlFor="templateName">Template Name</Label>
+                          <Input
+                            id="templateName"
+                            placeholder="Enter template name"
+                            value={newTemplate.name}
+                            onChange={(e) =>
+                              setNewTemplate((prev) => ({
+                                ...prev,
+                                name: e.target.value,
+                              }))
+                            }
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="templateType">Template Type</Label>
+                          <Select
+                            value={newTemplate.type}
+                            onValueChange={(value) =>
+                              setNewTemplate((prev) => ({
+                                ...prev,
+                                type: value,
+                              }))
+                            }
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="11-month">
+                                11 Month Agreement
+                              </SelectItem>
+                              <SelectItem value="yearly">
+                                Yearly Agreement
+                              </SelectItem>
+                              <SelectItem value="monthly">
+                                Monthly Agreement
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="templateContent">
+                            Template Content
+                          </Label>
+                          <Textarea
+                            id="templateContent"
+                            placeholder="Enter template content. Use placeholders like {tenant_name}, {monthly_rent}, etc."
+                            rows={10}
+                            value={newTemplate.content}
+                            onChange={(e) =>
+                              setNewTemplate((prev) => ({
+                                ...prev,
+                                content: e.target.value,
+                              }))
+                            }
+                            required
+                          />
+                          <p className="text-xs text-gray-500">
+                            Available placeholders:{" "}
+                            {
+                              "{tenant_name}, {unit_number}, {property_name}, {monthly_rent}, {security_deposit}, {start_date}, {end_date}, {agreement_date}, {special_terms}"
+                            }
+                          </p>
+                        </div>
+                        <Button
+                          type="submit"
+                          className="w-full bg-primary hover:bg-primary/90"
+                        >
+                          Create Template
+                        </Button>
+                      </form>
+                    </TabsContent>
+                  </Tabs>
+                </DialogContent>
+              </Dialog>
+
               <Dialog
                 open={isCreateAgreementOpen}
                 onOpenChange={setIsCreateAgreementOpen}
@@ -536,14 +872,30 @@ const RentAgreements = () => {
                       </div>
                     </div>
 
-                    <div className="flex gap-2">
-                      <Button size="sm" variant="outline">
+                    <div className="flex gap-2 flex-wrap">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => viewAgreement(agreement)}
+                      >
                         <Eye className="w-4 h-4 mr-1" />
                         View
                       </Button>
-                      <Button size="sm" variant="outline">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => downloadAgreement(agreement, "pdf")}
+                      >
                         <Download className="w-4 h-4 mr-1" />
-                        Download
+                        PDF
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => downloadAgreement(agreement, "docx")}
+                      >
+                        <Download className="w-4 h-4 mr-1" />
+                        DOCX
                       </Button>
                       {agreement.status === "draft" && (
                         <Button
@@ -561,7 +913,11 @@ const RentAgreements = () => {
                           Resend
                         </Button>
                       )}
-                      <Button size="sm" variant="outline">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => editAgreement(agreement)}
+                      >
                         <Edit className="w-4 h-4 mr-1" />
                         Edit
                       </Button>
