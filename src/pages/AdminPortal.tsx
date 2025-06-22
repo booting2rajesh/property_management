@@ -36,6 +36,114 @@ import {
   Phone,
 } from "lucide-react";
 
+interface Permission {
+  name: string;
+  granted: boolean;
+}
+
+interface EditablePermissionCardProps {
+  role: string;
+  color: string;
+  permissions: Permission[];
+}
+
+const EditablePermissionCard = ({
+  role,
+  color,
+  permissions: initialPermissions,
+}: EditablePermissionCardProps) => {
+  const [permissions, setPermissions] = useState(initialPermissions);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const colorClasses = {
+    purple: "text-purple-600",
+    blue: "text-blue-600",
+    green: "text-green-600",
+  };
+
+  const togglePermission = (index: number) => {
+    setPermissions((prev) =>
+      prev.map((perm, i) =>
+        i === index ? { ...perm, granted: !perm.granted } : perm,
+      ),
+    );
+  };
+
+  const handleSave = () => {
+    setIsEditing(false);
+    // Here you would typically save to backend
+    console.log(`Updated ${role} permissions:`, permissions);
+  };
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Shield
+            className={`w-5 h-5 ${colorClasses[color as keyof typeof colorClasses]}`}
+          />
+          {role} Permissions
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <div className="text-sm space-y-2">
+          {permissions.map((permission, index) => (
+            <div key={index} className="flex items-center gap-2">
+              {isEditing ? (
+                <Checkbox
+                  checked={permission.granted}
+                  onCheckedChange={() => togglePermission(index)}
+                />
+              ) : (
+                <div
+                  className={`w-2 h-2 rounded-full ${
+                    permission.granted ? "bg-green-500" : "bg-red-500"
+                  }`}
+                ></div>
+              )}
+              <span
+                className={
+                  permission.granted ? "" : "line-through text-gray-500"
+                }
+              >
+                {permission.name}
+              </span>
+            </div>
+          ))}
+        </div>
+        {isEditing ? (
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex-1"
+              onClick={() => setIsEditing(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              size="sm"
+              className="flex-1 bg-primary hover:bg-primary/90"
+              onClick={handleSave}
+            >
+              Save
+            </Button>
+          </div>
+        ) : (
+          <Button
+            variant="outline"
+            size="sm"
+            className="w-full"
+            onClick={() => setIsEditing(true)}
+          >
+            Edit Permissions
+          </Button>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
 const AdminPortal = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("user-management");
