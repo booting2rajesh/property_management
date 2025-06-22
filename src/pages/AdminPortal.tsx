@@ -451,9 +451,19 @@ const AdminPortal = () => {
             onValueChange={setActiveTab}
             className="space-y-6"
           >
-            <TabsList className="grid w-full grid-cols-2 max-w-md">
-              <TabsTrigger value="user-management">User Management</TabsTrigger>
-              <TabsTrigger value="permissions">Permissions</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 max-w-md bg-gray-100 p-1 rounded-lg">
+              <TabsTrigger
+                value="user-management"
+                className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
+              >
+                User Management
+              </TabsTrigger>
+              <TabsTrigger
+                value="permissions"
+                className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
+              >
+                Permissions
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="user-management" className="space-y-6">
