@@ -7,6 +7,7 @@ import Properties from "./pages/Properties";
 import Units from "./pages/Units";
 import Tenants from "./pages/Tenants";
 import Billing from "./pages/Billing";
+import BillDetails from "./pages/BillDetails";
 import Communications from "./pages/Communications";
 import AdminPortal from "./pages/AdminPortal";
 import NotFound from "./pages/NotFound";
@@ -25,6 +26,7 @@ const App = () => (
           <Route path="/units" element={<Units />} />
           <Route path="/tenants" element={<Tenants />} />
           <Route path="/billing" element={<Billing />} />
+          <Route path="/billing/:id" element={<BillDetails />} />
           <Route path="/communications" element={<Communications />} />
           <Route path="/admin" element={<AdminPortal />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
