@@ -12,9 +12,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
+import emailjs from "@emailjs/browser";
 import {
   Plus,
   Users,
@@ -25,6 +33,8 @@ import {
   Phone,
   Calendar,
   Send,
+  Edit,
+  CheckCircle,
 } from "lucide-react";
 
 const Communications = () => {
