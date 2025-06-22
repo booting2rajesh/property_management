@@ -370,37 +370,174 @@ const Communications = () => {
                   <div className="space-y-4">
                     <Label className="text-base font-medium">Send To</Label>
                     <div className="grid grid-cols-3 gap-4">
-                      <Card className="p-4 cursor-pointer hover:bg-gray-50 border-2 border-primary">
+                      <Card
+                        className={`p-4 cursor-pointer hover:bg-gray-50 border-2 ${
+                          formData.sendTo === "all-tenants"
+                            ? "border-primary"
+                            : "border-gray-200"
+                        }`}
+                        onClick={() => handleSendToChange("all-tenants")}
+                      >
                         <div className="flex flex-col items-center gap-2">
-                          <div className="w-12 h-12 bg-primary rounded-lg flex items-center justify-center">
-                            <Users className="w-6 h-6 text-white" />
+                          <div
+                            className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                              formData.sendTo === "all-tenants"
+                                ? "bg-primary"
+                                : "bg-gray-100"
+                            }`}
+                          >
+                            <Users
+                              className={`w-6 h-6 ${
+                                formData.sendTo === "all-tenants"
+                                  ? "text-white"
+                                  : "text-gray-600"
+                              }`}
+                            />
                           </div>
-                          <span className="font-medium text-primary">
+                          <span
+                            className={`font-medium ${
+                              formData.sendTo === "all-tenants"
+                                ? "text-primary"
+                                : "text-gray-700"
+                            }`}
+                          >
                             All Tenants
                           </span>
                         </div>
                       </Card>
-                      <Card className="p-4 cursor-pointer hover:bg-gray-50 border-2 border-gray-200">
+                      <Card
+                        className={`p-4 cursor-pointer hover:bg-gray-50 border-2 ${
+                          formData.sendTo === "property-wise"
+                            ? "border-primary"
+                            : "border-gray-200"
+                        }`}
+                        onClick={() => handleSendToChange("property-wise")}
+                      >
                         <div className="flex flex-col items-center gap-2">
-                          <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                            <Building className="w-6 h-6 text-gray-600" />
+                          <div
+                            className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                              formData.sendTo === "property-wise"
+                                ? "bg-primary"
+                                : "bg-gray-100"
+                            }`}
+                          >
+                            <Building
+                              className={`w-6 h-6 ${
+                                formData.sendTo === "property-wise"
+                                  ? "text-white"
+                                  : "text-gray-600"
+                              }`}
+                            />
                           </div>
-                          <span className="font-medium text-gray-700">
+                          <span
+                            className={`font-medium ${
+                              formData.sendTo === "property-wise"
+                                ? "text-primary"
+                                : "text-gray-700"
+                            }`}
+                          >
                             Property Wise
                           </span>
                         </div>
                       </Card>
-                      <Card className="p-4 cursor-pointer hover:bg-gray-50 border-2 border-gray-200">
+                      <Card
+                        className={`p-4 cursor-pointer hover:bg-gray-50 border-2 ${
+                          formData.sendTo === "unit-wise"
+                            ? "border-primary"
+                            : "border-gray-200"
+                        }`}
+                        onClick={() => handleSendToChange("unit-wise")}
+                      >
                         <div className="flex flex-col items-center gap-2">
-                          <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center">
-                            <Home className="w-6 h-6 text-gray-600" />
+                          <div
+                            className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                              formData.sendTo === "unit-wise"
+                                ? "bg-primary"
+                                : "bg-gray-100"
+                            }`}
+                          >
+                            <Home
+                              className={`w-6 h-6 ${
+                                formData.sendTo === "unit-wise"
+                                  ? "text-white"
+                                  : "text-gray-600"
+                              }`}
+                            />
                           </div>
-                          <span className="font-medium text-gray-700">
+                          <span
+                            className={`font-medium ${
+                              formData.sendTo === "unit-wise"
+                                ? "text-primary"
+                                : "text-gray-700"
+                            }`}
+                          >
                             Unit Wise
                           </span>
                         </div>
                       </Card>
                     </div>
+
+                    {/* Property Selection */}
+                    {formData.sendTo === "property-wise" && (
+                      <div className="space-y-2">
+                        <Label htmlFor="property">Select Property</Label>
+                        <Select
+                          value={formData.selectedProperty}
+                          onValueChange={(value) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              selectedProperty: value,
+                            }))
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Choose property" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {properties.map((property) => (
+                              <SelectItem
+                                key={property.id}
+                                value={property.name}
+                              >
+                                {property.name}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    )}
+
+                    {/* Unit Selection */}
+                    {formData.sendTo === "unit-wise" && (
+                      <div className="space-y-2">
+                        <Label htmlFor="unit">Select Unit</Label>
+                        <Select
+                          value={formData.selectedUnit}
+                          onValueChange={(value) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              selectedUnit: value,
+                            }))
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Choose unit" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {properties.flatMap((property) =>
+                              property.units.map((unit) => (
+                                <SelectItem
+                                  key={`${property.name}-${unit}`}
+                                  value={unit}
+                                >
+                                  {unit} - {property.name}
+                                </SelectItem>
+                              )),
+                            )}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    )}
                   </div>
 
                   {/* Template */}
