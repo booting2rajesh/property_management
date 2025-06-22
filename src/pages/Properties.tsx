@@ -3,6 +3,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
 import {
@@ -23,8 +33,16 @@ import {
 
 const Properties = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [propertyFormData, setPropertyFormData] = useState({
+    name: "",
+    address: "",
+    totalUnits: "",
+    image: "",
+    amenities: [] as string[],
+  });
 
-  const properties = [
+  const [properties, setProperties] = useState([
     {
       id: 1,
       name: "Sunrise Apartments",
@@ -57,7 +75,72 @@ const Properties = () => {
         { name: "Schools", distance: "2 nearby" },
       ],
     },
+  ]);
+
+  const availableAmenities = [
+    "Parking",
+    "Security",
+    "Elevator",
+    "Power Backup",
+    "Swimming Pool",
+    "Gym",
+    "Garden",
+    "Clubhouse",
+    "CCTV",
+    "Water Supply",
+    "Wifi",
+    "Playground",
   ];
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setPropertyFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleAmenityChange = (amenity: string, checked: boolean) => {
+    setPropertyFormData((prev) => ({
+      ...prev,
+      amenities: checked
+        ? [...prev.amenities, amenity]
+        : prev.amenities.filter((a) => a !== amenity),
+    }));
+  };
+
+  const handleAddProperty = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const newProperty = {
+      id: properties.length + 1,
+      name: propertyFormData.name,
+      address: propertyFormData.address,
+      image:
+        propertyFormData.image ||
+        "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=200&fit=crop",
+      totalUnits: parseInt(propertyFormData.totalUnits),
+      occupiedUnits: 0,
+      vacantUnits: parseInt(propertyFormData.totalUnits),
+      amenities: propertyFormData.amenities,
+      nearbyFacilities: [
+        { name: "Main Road", distance: "500m", count: "1 nearby" },
+        { name: "Hospitals", distance: "1 nearby" },
+        { name: "Schools", distance: "1 nearby" },
+      ],
+    };
+
+    setProperties((prev) => [...prev, newProperty]);
+    setIsAddModalOpen(false);
+    setPropertyFormData({
+      name: "",
+      address: "",
+      totalUnits: "",
+      image: "",
+      amenities: [],
+    });
+  };
 
   const filteredProperties = properties.filter((property) =>
     property.name.toLowerCase().includes(searchTerm.toLowerCase()),
@@ -82,10 +165,105 @@ const Properties = () => {
                   className="pl-10 w-64"
                 />
               </div>
-              <Button className="bg-primary hover:bg-primary/90">
-                <Plus className="w-4 h-4 mr-2" />
-                Add Property
-              </Button>
+              <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
+                <DialogTrigger asChild>
+                  <Button className="bg-primary hover:bg-primary/90">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Add Property
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+                  <DialogHeader>
+                    <DialogTitle>Add New Property</DialogTitle>
+                  </DialogHeader>
+                  <form onSubmit={handleAddProperty} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Property Name</Label>
+                      <Input
+                        id="name"
+                        name="name"
+                        placeholder="Enter property name"
+                        value={propertyFormData.name}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="address">Address</Label>
+                      <Textarea
+                        id="address"
+                        name="address"
+                        placeholder="Enter complete address"
+                        value={propertyFormData.address}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="totalUnits">Total Units</Label>
+                      <Input
+                        id="totalUnits"
+                        name="totalUnits"
+                        type="number"
+                        placeholder="Enter number of units"
+                        value={propertyFormData.totalUnits}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="image">Image URL (Optional)</Label>
+                      <Input
+                        id="image"
+                        name="image"
+                        placeholder="Enter image URL"
+                        value={propertyFormData.image}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="space-y-3">
+                      <Label>Amenities</Label>
+                      <div className="grid grid-cols-2 gap-3">
+                        {availableAmenities.map((amenity) => (
+                          <div
+                            key={amenity}
+                            className="flex items-center space-x-2"
+                          >
+                            <Checkbox
+                              id={amenity}
+                              checked={propertyFormData.amenities.includes(
+                                amenity,
+                              )}
+                              onCheckedChange={(checked) =>
+                                handleAmenityChange(amenity, checked as boolean)
+                              }
+                            />
+                            <Label htmlFor={amenity} className="text-sm">
+                              {amenity}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="flex gap-2 pt-4">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="flex-1"
+                        onClick={() => setIsAddModalOpen(false)}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        type="submit"
+                        className="flex-1 bg-primary hover:bg-primary/90"
+                      >
+                        Add Property
+                      </Button>
+                    </div>
+                  </form>
+                </DialogContent>
+              </Dialog>
             </div>
           }
         />
