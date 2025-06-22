@@ -355,9 +355,19 @@ const Communications = () => {
 
         <main className="p-6">
           <Tabs defaultValue="send-message" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="send-message">Send Message</TabsTrigger>
-              <TabsTrigger value="templates">Templates</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-2 bg-gray-100 p-1 rounded-lg">
+              <TabsTrigger
+                value="send-message"
+                className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
+              >
+                Send Message
+              </TabsTrigger>
+              <TabsTrigger
+                value="templates"
+                className="data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm"
+              >
+                Templates
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="send-message" className="space-y-6">
