@@ -38,6 +38,7 @@ import {
 
 const Tenants = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -53,7 +54,7 @@ const Tenants = () => {
     emergencyContactRelation: "",
   });
 
-  const tenants = [
+  const [tenants, setTenants] = useState([
     {
       id: 1,
       name: "Raj Kumar",
@@ -80,14 +81,46 @@ const Tenants = () => {
       avatar: "",
       badges: ["Agreement", "Payments", "KYC"],
     },
-  ];
+    {
+      id: 3,
+      name: "Amit Patel",
+      email: "amit.patel@email.com",
+      phone: "+91 9876543213",
+      unit: "Unit A-102 • Sunrise Apartments",
+      moveInDate: "Since Mar 2024",
+      monthlyRent: "₹28,000",
+      advance: "₹56,000",
+      status: "verified",
+      avatar: "",
+      badges: ["Agreement", "Payments", "KYC"],
+    },
+    {
+      id: 4,
+      name: "Sita Devi",
+      email: "sita.devi@email.com",
+      phone: "+91 9876543214",
+      unit: "Unit B-202 • Green Valley Residency",
+      moveInDate: "Since Feb 2024",
+      monthlyRent: "₹24,000",
+      advance: "₹48,000",
+      status: "pending",
+      avatar: "",
+      badges: ["Agreement", "Payments"],
+    },
+  ]);
 
-  const filteredTenants = tenants.filter(
-    (tenant) =>
+  const filteredTenants = tenants.filter((tenant) => {
+    const matchesSearch =
       tenant.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       tenant.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tenant.phone.includes(searchTerm),
-  );
+      tenant.phone.includes(searchTerm) ||
+      tenant.unit.toLowerCase().includes(searchTerm.toLowerCase());
+
+    const matchesStatus =
+      statusFilter === "all" || tenant.status === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
@@ -98,7 +131,22 @@ const Tenants = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Add tenant:", formData);
+
+    const newTenant = {
+      id: tenants.length + 1,
+      name: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      unit: formData.unit,
+      moveInDate: `Since ${new Date(formData.occupancyDate).toLocaleDateString("en-US", { month: "short", year: "numeric" })}`,
+      monthlyRent: `₹${formData.monthlyRent}`,
+      advance: `₹${formData.advance}`,
+      status: "pending",
+      avatar: "",
+      badges: ["Agreement"],
+    };
+
+    setTenants((prev) => [...prev, newTenant]);
     setIsAddModalOpen(false);
     setFormData({
       fullName: "",
@@ -134,10 +182,16 @@ const Tenants = () => {
                   className="pl-10 w-80"
                 />
               </div>
-              <Button variant="outline">
-                <Filter className="w-4 h-4 mr-2" />
-                Filter
-              </Button>
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-32">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Status</SelectItem>
+                  <SelectItem value="verified">Verified</SelectItem>
+                  <SelectItem value="pending">Pending</SelectItem>
+                </SelectContent>
+              </Select>
               <Dialog open={isAddModalOpen} onOpenChange={setIsAddModalOpen}>
                 <DialogTrigger asChild>
                   <Button className="bg-primary hover:bg-primary/90">
