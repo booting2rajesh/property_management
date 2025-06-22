@@ -437,14 +437,19 @@ const Billing = () => {
         <main className="p-6">
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-            <Card>
+            <Card
+              className="cursor-pointer hover:shadow-lg transition-shadow"
+              onClick={() => setStatusFilter("all")}
+            >
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-gray-600">
                       Total Bills
                     </p>
-                    <p className="text-3xl font-bold text-gray-900 mt-2">3</p>
+                    <p className="text-3xl font-bold text-gray-900 mt-2">
+                      {bills.length}
+                    </p>
                   </div>
                   <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
                     <FileText className="w-6 h-6 text-blue-600" />
@@ -453,14 +458,19 @@ const Billing = () => {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card
+              className="cursor-pointer hover:shadow-lg transition-shadow"
+              onClick={() => setStatusFilter("paid")}
+            >
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-gray-600">
                       Paid Bills
                     </p>
-                    <p className="text-3xl font-bold text-green-700 mt-2">1</p>
+                    <p className="text-3xl font-bold text-green-700 mt-2">
+                      {bills.filter((b) => b.status === "paid").length}
+                    </p>
                   </div>
                   <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
                     <CheckCircle className="w-6 h-6 text-green-600" />
@@ -469,14 +479,19 @@ const Billing = () => {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card
+              className="cursor-pointer hover:shadow-lg transition-shadow"
+              onClick={() => setStatusFilter("pending")}
+            >
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-gray-600">
                       Pending Bills
                     </p>
-                    <p className="text-3xl font-bold text-yellow-700 mt-2">1</p>
+                    <p className="text-3xl font-bold text-yellow-700 mt-2">
+                      {bills.filter((b) => b.status === "pending").length}
+                    </p>
                   </div>
                   <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
                     <Clock className="w-6 h-6 text-yellow-600" />
@@ -485,14 +500,19 @@ const Billing = () => {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card
+              className="cursor-pointer hover:shadow-lg transition-shadow"
+              onClick={() => setStatusFilter("overdue")}
+            >
               <CardContent className="p-6">
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-gray-600">
                       Overdue Bills
                     </p>
-                    <p className="text-3xl font-bold text-red-700 mt-2">1</p>
+                    <p className="text-3xl font-bold text-red-700 mt-2">
+                      {bills.filter((b) => b.status === "overdue").length}
+                    </p>
                   </div>
                   <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
                     <AlertTriangle className="w-6 h-6 text-red-600" />
