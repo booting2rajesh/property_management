@@ -982,143 +982,34 @@ SIGNATURES:
                 alignment: AlignmentType.JUSTIFIED,
               }),
 
-              // Signature section using table for proper alignment
-              new Table({
-                width: {
-                  size: 100,
-                  type: WidthType.PERCENTAGE,
-                },
-                rows: [
-                  new TableRow({
-                    children: [
-                      new TableCell({
-                        children: [
-                          new Paragraph({
-                            children: [
-                              new TextRun({
-                                text: "1",
-                                size: 24,
-                                font: "Times New Roman",
-                              }),
-                            ],
-                            alignment: AlignmentType.LEFT,
-                          }),
-                        ],
-                        width: {
-                          size: 10,
-                          type: WidthType.PERCENTAGE,
-                        },
-                        borders: {
-                          top: { style: BorderStyle.NONE },
-                          bottom: { style: BorderStyle.NONE },
-                          left: { style: BorderStyle.NONE },
-                          right: { style: BorderStyle.NONE },
-                        },
-                      }),
-                      new TableCell({
-                        children: [
-                          new Paragraph({
-                            children: [
-                              new TextRun({
-                                text: "SIGNATURE OF THE LESSOR",
-                                bold: true,
-                                size: 24,
-                                font: "Times New Roman",
-                              }),
-                            ],
-                            alignment: AlignmentType.CENTER,
-                          }),
-                        ],
-                        width: {
-                          size: 90,
-                          type: WidthType.PERCENTAGE,
-                        },
-                        borders: {
-                          top: { style: BorderStyle.NONE },
-                          bottom: { style: BorderStyle.NONE },
-                          left: { style: BorderStyle.NONE },
-                          right: { style: BorderStyle.NONE },
-                        },
-                      }),
-                    ],
+              // Signature section on one line with proper spacing
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "1",
+                    size: 24,
+                    font: "Times New Roman",
                   }),
-                  // Add spacing row
-                  new TableRow({
-                    children: [
-                      new TableCell({
-                        children: [
-                          new Paragraph({
-                            children: [new TextRun({ text: " ", size: 24 })],
-                          }),
-                        ],
-                        columnSpan: 2,
-                        borders: {
-                          top: { style: BorderStyle.NONE },
-                          bottom: { style: BorderStyle.NONE },
-                          left: { style: BorderStyle.NONE },
-                          right: { style: BorderStyle.NONE },
-                        },
-                      }),
-                    ],
+                  new TextRun({
+                    text: "           SIGNATURE OF THE LESSOR",
+                    bold: true,
+                    size: 24,
+                    font: "Times New Roman",
                   }),
-                  new TableRow({
-                    children: [
-                      new TableCell({
-                        children: [
-                          new Paragraph({
-                            children: [
-                              new TextRun({
-                                text: "2",
-                                size: 24,
-                                font: "Times New Roman",
-                              }),
-                            ],
-                            alignment: AlignmentType.LEFT,
-                          }),
-                        ],
-                        width: {
-                          size: 10,
-                          type: WidthType.PERCENTAGE,
-                        },
-                        borders: {
-                          top: { style: BorderStyle.NONE },
-                          bottom: { style: BorderStyle.NONE },
-                          left: { style: BorderStyle.NONE },
-                          right: { style: BorderStyle.NONE },
-                        },
-                      }),
-                      new TableCell({
-                        children: [
-                          new Paragraph({
-                            children: [
-                              new TextRun({
-                                text: "SIGNATURE OF THE LESSEE",
-                                bold: true,
-                                size: 24,
-                                font: "Times New Roman",
-                              }),
-                            ],
-                            alignment: AlignmentType.CENTER,
-                          }),
-                        ],
-                        width: {
-                          size: 90,
-                          type: WidthType.PERCENTAGE,
-                        },
-                        borders: {
-                          top: { style: BorderStyle.NONE },
-                          bottom: { style: BorderStyle.NONE },
-                          left: { style: BorderStyle.NONE },
-                          right: { style: BorderStyle.NONE },
-                        },
-                      }),
-                    ],
+                  new TextRun({
+                    text: "                                                                                                                                                              2",
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                  new TextRun({
+                    text: "       SIGNATURE OF THE LESSEE",
+                    bold: true,
+                    size: 24,
+                    font: "Times New Roman",
                   }),
                 ],
-                margins: {
-                  top: 480,
-                  bottom: 240,
-                },
+                spacing: { before: 480, after: 240 },
+                alignment: AlignmentType.LEFT,
               }),
             ],
           },
