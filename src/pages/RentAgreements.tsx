@@ -142,7 +142,21 @@ SECURITY DEPOSIT: Rs.<Rent in this format-40,000>/-
 This agreement is renewable monthly with mutual consent.
 
 SIGNATURES:
-LESSOR: ________________    LESSEE: ________________`,
+
+<div class="signature-section">
+<div>
+1. ____________________<br/>
+   SIGNATURE OF THE LESSOR<br/><br/>
+   Date: ______________<br/>
+   Place: _____________
+</div>
+<div>
+2. ____________________<br/>
+   SIGNATURE OF THE LESSEE<br/><br/>
+   Date: ______________<br/>
+   Place: _____________
+</div>
+</div>`,
       createdDate: "2024-01-01",
     },
   ]);
