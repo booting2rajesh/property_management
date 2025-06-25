@@ -70,7 +70,10 @@ This Rental Agreement is made on this <Date of agreement signing in this format 
                                     AND
 <Lessee Name> D/O of <Father Name>, residing at <Lessee Permanent Address> herein after called the "LESSEE" which term shall mean and include whatever the heirs, legal representative, executors, administrators and assigns of OTHER PART.
 
-LESSOR                                                                                        LESSEE
+<div style="display: flex; justify-content: space-between; margin: 20px 0; page-break-after: always;">
+<div>LESSOR</div>
+<div>LESSEE</div>
+</div>
 
 WHEREAS the LESSOR herein is the sole and absolute owner of all that piece and parcel of the residential flat bearing No. <Rental Unit address> situated in Thiruneermalai Village, Alandur Taluk, Kancheepuram District, within the Registration District of Chennai south and sub-Registration District of Pammal.
 AND WHEREAS THE LESSEE has approached the LESSOR to demise the SCHEDULE mentioned house on monthly rental basis for Residential purpose for a period of 11 months on the terms and conditions hereinafter mentioned and the LESSOR has also hereby agreed to demise the SCHEDULE mentioned house to the LESSEE on a Monthly rental on the following terms and conditions.
@@ -79,10 +82,15 @@ NOW THIS LEASE AGREEMENT WITNESSTH AS FOLLOWS:
 2. The LESSEE is strictly for residential purposes to accommodate the occupier of the LESSEE. The Lease is according to the English calendar Month.
 3.The LESSEE has agreed to pay the Monthly Amenity Charges on or before 5th day of every Succeeding month for the demised Property more fully described in the SCHEDULE hereunder in the following manner: -
 i.) Rs.<Rent in this format- 13,000>/-per month (Rupees -<Amount in this format Thirteen Thousand Five Hundred only>)
-ii.) Rs. .<Rent in this format-40,000>/- (Rupees -<Amount in this format Forty Thousand only) as one time interest free deposit to be paid by the LESSEE at the time of taking possession of the Premises and refunded by the LESSOR at the time of receiving vacant possession of the premises.
+ii.) Rs.<Rent in this format-40,000>/- (Rupees -<Amount in this format Forty Thousand only>) as one time interest free deposit to be paid by the LESSEE at the time of taking possession of the Premises and refunded by the LESSOR at the time of receiving vacant possession of the premises.
 iii.) In case of LESSEE opting for Car Parking, extra charge of Rs,1000 for hatchback or sedan and Rs.1500 for SUV needs to be paid along with the rent
 4. The LESSEE shall pay Electricity Charges regularly as applicable to his/her Portion of the premises without default to the EB.
-LESSOR                                                                                           LESSEE
+
+<div style="display: flex; justify-content: space-between; margin: 20px 0; page-break-after: always;">
+<div>LESSOR</div>
+<div>LESSEE</div>
+</div>
+
 5.That the LESSOR shall have full control over the supervision and management in respect of the said flat and the LESSEE shall not, in any way, interfere with the LESSOR'S right of maintenance nor the LESSOR interfere with the LESSEE'S rights of quite & peaceful undisturbed tenancy & occupation.
 6. The LESSEE should keep the demised premises in good and tenantable condition as, may prudent person would do with his/her property.
 7. The LESSEE shall not use the demised premises for any purpose other than for which it was let out not shall sub-let or sub-lease the portion let out to him to any third party.
@@ -93,7 +101,12 @@ LESSOR                                                                          
 12. The LESSOR shall not pay all taxes and levies due to Municipal Corporation.
 13. That the LESSEE shall not create any untoward disturbance or nuisance and shall not allow any anti-social person in the SAID PREMISES.
 14. That the LESSEE shall not keep any illegal inflammable article or explosive that endangers life property.
-LESSOR                                                                                       LESSEE
+
+<div style="display: flex; justify-content: space-between; margin: 20px 0; page-break-after: always;">
+<div>LESSOR</div>
+<div>LESSEE</div>
+</div>
+
 15. Either the LESSOR or the LESSEE may terminate the Lease agreement by giving written notice 2 (Two) months in advance. However, the LESSEE is free to terminate the licensing agreement with a shorter notice period in which case the monthly rental for the premises & fixtures only for the period of two months shall be paid as compensation to the LESSOR.
 16. That no interest shall be payable on the deposit amount which would be refunded by the LESSOR after deducting the arrears in rent and damages if any, at the time of LESSEE vacating and handling over the vacant and peaceful possession of the demise premises to LESSOR.
 17. That the Said lease shall stand automatically terminated in case of LESSEE fails to comply with any of the stipulated terms and conditions of this agreement.
@@ -101,11 +114,11 @@ SCHEDULE
 ALL THAT PIECE AND PARCEL OF FLAT NO.<Lessee Unit Address> situated in Thiruneermalai Village, Alandur Taluk, Kancheepuram District, within the Registration District of Chennai south and sub-Registration District of Pammal
 IN WITNESS WHEREOF this agreement upon above mentioned terms and conditions both the LESSOR and LESSSEE are subscribing their respective hands and seals to the day, month and year first above written. SIGNED SEALED AND DELIVERED IN PRESENCE OF WITNESSSES: -
 
-1
-                                                                               SIGNATURE OF THE LESSOR
+1. ____________________                                    2. ____________________
+   SIGNATURE OF THE LESSOR                                       SIGNATURE OF THE LESSEE
 
-2
-                                                                               SIGNATURE OF THE LESSEE`,
+   Date: ______________                                          Date: ______________
+   Place: _____________                                          Place: _____________`,
       createdDate: "2024-01-01",
     },
     {
