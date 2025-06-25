@@ -1,4 +1,17 @@
 import { useState } from "react";
+import {
+  Document,
+  Packer,
+  Paragraph,
+  TextRun,
+  AlignmentType,
+  HeadingLevel,
+  BorderStyle,
+  WidthType,
+  TabStopPosition,
+  TabStopType,
+} from "docx";
+import { saveAs } from "file-saver";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
