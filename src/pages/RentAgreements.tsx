@@ -102,7 +102,7 @@ iii.) In case of LESSEE opting for Car Parking, extra charge of Rs,1000 for hatc
 13. That the LESSEE shall not create any untoward disturbance or nuisance and shall not allow any anti-social person in the SAID PREMISES.
 14. That the LESSEE shall not keep any illegal inflammable article or explosive that endangers life property.
 
-<div style="display: flex; justify-content: space-between; margin: 20px 0; page-break-after: always;">
+<div class="lessor-lessee-parallel">
 <div>LESSOR</div>
 <div>LESSEE</div>
 </div>
