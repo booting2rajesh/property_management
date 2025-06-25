@@ -10,6 +10,9 @@ import {
   WidthType,
   TabStopPosition,
   TabStopType,
+  Table,
+  TableRow,
+  TableCell,
 } from "docx";
 import { saveAs } from "file-saver";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
