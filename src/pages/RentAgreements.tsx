@@ -70,7 +70,7 @@ This Rental Agreement is made on this <Date of agreement signing in this format 
                                     AND
 <Lessee Name> D/O of <Father Name>, residing at <Lessee Permanent Address> herein after called the "LESSEE" which term shall mean and include whatever the heirs, legal representative, executors, administrators and assigns of OTHER PART.
 
-<div style="display: flex; justify-content: space-between; margin: 20px 0; page-break-after: always;">
+<div class="lessor-lessee-parallel">
 <div>LESSOR</div>
 <div>LESSEE</div>
 </div>
