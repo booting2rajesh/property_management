@@ -512,8 +512,7 @@ SIGNATURES:
     subRegistrationDistrict: "Pammal",
   });
 
-  const downloadAgreement = (agreement: any, format: "pdf" | "docx") => {
-    // Generate agreement content from template
+  const downloadAgreement = async (agreement: any, format: "pdf" | "docx") => {
     const template = agreementTemplates.find(
       (t) => t.type === agreement.agreementType,
     );
@@ -523,74 +522,431 @@ SIGNATURES:
     const lesseeProfile = getLesseeProfile(agreement.tenant.name);
     const unitProfile = getUnitProfile(agreement.unit);
 
-    let content = template.content
-      // Date fields
-      .replace(
-        /<Date of agreement signing in this format 26th day of Sep 2024>/g,
-        formatDateForAgreement(agreement.createdDate, "26th day of Sep 2024"),
-      )
-      .replace(
-        /<Agreement signing date in this format - 26\.09\.2024>/g,
-        formatDateForAgreement(agreement.startDate, "26.09.2024"),
-      )
+    if (format === "docx") {
+      // Create DOCX document with professional formatting
+      const doc = new Document({
+        styles: {
+          paragraphStyles: [
+            {
+              id: "Heading1",
+              name: "Heading 1",
+              basedOn: "Normal",
+              next: "Normal",
+              quickFormat: true,
+              run: {
+                size: 28,
+                bold: true,
+                font: "Times New Roman",
+              },
+              paragraph: {
+                spacing: {
+                  after: 240,
+                },
+                alignment: AlignmentType.CENTER,
+              },
+            },
+            {
+              id: "Normal",
+              name: "Normal",
+              quickFormat: true,
+              run: {
+                size: 24,
+                font: "Times New Roman",
+              },
+              paragraph: {
+                spacing: {
+                  line: 360,
+                  after: 120,
+                },
+                alignment: AlignmentType.JUSTIFIED,
+              },
+            },
+          ],
+        },
+        sections: [
+          {
+            properties: {
+              page: {
+                margin: {
+                  top: 1440,
+                  right: 1440,
+                  bottom: 1440,
+                  left: 1440,
+                },
+              },
+            },
+            children: [
+              // Title
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "RENTAL AGREEMENT",
+                    bold: true,
+                    size: 28,
+                    font: "Times New Roman",
+                  }),
+                ],
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 240 },
+              }),
 
-      // Lessor fields
-      .replace(/<Lessor Name>/g, lessorProfile.name)
-      .replace(/<relation>/g, lessorProfile.relation)
-      .replace(/<relative name>/g, lessorProfile.relativeName)
-      .replace(/<Lessor Address>/g, lessorProfile.address)
+              // Agreement introduction
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: `This Rental Agreement is made on this ${formatDateForAgreement(agreement.createdDate, "26th day of Sep 2024")} at Chennai.`,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 240 },
+                alignment: AlignmentType.JUSTIFIED,
+              }),
 
-      // Lessee fields
-      .replace(/<Lessee Name>/g, lesseeProfile.name)
-      .replace(/<Father Name>/g, lesseeProfile.fatherName)
-      .replace(/<Lessee Permanent Address>/g, lesseeProfile.permanentAddress)
+              // Lessor section
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: `${lessorProfile.name} ${lessorProfile.relation} of ${lessorProfile.relativeName}, aged about 54 years residing at ${lessorProfile.address} herein after called the " `,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                  new TextRun({
+                    text: "LESSOR",
+                    bold: true,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                  new TextRun({
+                    text: '" which term shall mean and include whatever the context so admits and permits his/her legal heirs, legal representative, executors, administrators and assigns of ',
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                  new TextRun({
+                    text: "ONE PART",
+                    bold: true,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 240 },
+                alignment: AlignmentType.JUSTIFIED,
+              }),
 
-      // Unit fields
-      .replace(/<Rental Unit address>/g, unitProfile.address)
-      .replace(/<Lessee Unit Address>/g, unitProfile.address)
+              // AND
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "AND",
+                    bold: true,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 240 },
+              }),
 
-      // Financial fields
-      .replace(
-        /<Rent in this format- 13,000>/g,
-        agreement.monthlyRent.toLocaleString(),
-      )
-      .replace(
-        /<Rent in this format-40,000>/g,
-        agreement.deposit.toLocaleString(),
-      )
-      .replace(
-        /<Amount in this format Thirteen Thousand Five Hundred only>/g,
-        numberToWords(agreement.monthlyRent),
-      )
-      .replace(
-        /<Amount in this format Forty Thousand only>/g,
-        numberToWords(agreement.deposit),
-      );
+              // Lessee section
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: `${lesseeProfile.name} D/O of ${lesseeProfile.fatherName}, residing at ${lesseeProfile.permanentAddress} herein after called the "`,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                  new TextRun({
+                    text: "LESSEE",
+                    bold: true,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                  new TextRun({
+                    text: '" which term shall mean and include whatever the heirs, legal representative, executors, administrators and assigns of ',
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                  new TextRun({
+                    text: "OTHER PART.",
+                    bold: true,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 240 },
+                alignment: AlignmentType.JUSTIFIED,
+              }),
 
-    if (format === "pdf") {
-      // In a real application, you'd use a PDF library like jsPDF
-      const blob = new Blob([content], { type: "text/plain" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${agreement.agreementNumber}.txt`;
-      link.click();
-      URL.revokeObjectURL(url);
-      alert(
-        "Agreement downloaded as text file (PDF generation requires additional library)",
-      );
+              // Page break and LESSOR/LESSEE headers
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "LESSOR",
+                    bold: true,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                  new TextRun({
+                    text: "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+                    size: 24,
+                  }),
+                  new TextRun({
+                    text: "LESSEE",
+                    bold: true,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 400 },
+                alignment: AlignmentType.LEFT,
+              }),
+
+              // WHEREAS clause
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: `WHEREAS the LESSOR herein is the sole and absolute owner of all that piece and parcel of the residential flat bearing No. ${unitProfile.address} situated in Thiruneermalai Village, Alandur Taluk, Kancheepuram District, within the Registration District of Chennai south and sub-Registration District of Pammal.`,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 240 },
+                alignment: AlignmentType.JUSTIFIED,
+              }),
+
+              // Second WHEREAS clause
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "AND WHEREAS THE LESSEE has approached the LESSOR to demise the SCHEDULE mentioned house on monthly rental basis for Residential purpose for a period of 11 months on the terms and conditions hereinafter mentioned and the LESSOR has also hereby agreed to demise the SCHEDULE mentioned house to the LESSEE on a Monthly rental on the following terms and conditions.",
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 240 },
+                alignment: AlignmentType.JUSTIFIED,
+              }),
+
+              // NOW THIS LEASE AGREEMENT
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "NOW THIS LEASE AGREEMENT WITNESSTH AS FOLLOWS:",
+                    bold: true,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 240 },
+                alignment: AlignmentType.LEFT,
+              }),
+
+              // Terms and conditions
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: `1. The Lease shall be initially for a period of 11 months, commencing from ${formatDateForAgreement(agreement.startDate, "26.09.2024")} upon completion of 11 months`,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 240 },
+                alignment: AlignmentType.JUSTIFIED,
+              }),
+
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "2. The LESSEE is strictly for residential purposes to accommodate the occupier of the LESSEE. The Lease is according to the English calendar Month.",
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 240 },
+                alignment: AlignmentType.JUSTIFIED,
+              }),
+
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "3.The LESSEE has agreed to pay the Monthly Amenity Charges on or before 5th day of every Succeeding month for the demised Property more fully described in the SCHEDULE hereunder in the following manner: -",
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 120 },
+                alignment: AlignmentType.JUSTIFIED,
+              }),
+
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: `i.) Rs.${agreement.monthlyRent.toLocaleString()}/-per month (Rupees -${numberToWords(agreement.monthlyRent)})`,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 120 },
+                alignment: AlignmentType.JUSTIFIED,
+              }),
+
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: `ii.) Rs.${agreement.deposit.toLocaleString()}/- (Rupees -${numberToWords(agreement.deposit)}) as one time interest free deposit to be paid by the LESSEE at the time of taking possession of the Premises and refunded by the LESSOR at the time of receiving vacant possession of the premises.`,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 240 },
+                alignment: AlignmentType.JUSTIFIED,
+              }),
+
+              // Add rest of the agreement clauses
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "iii.) In case of LESSEE opting for Car Parking, extra charge of Rs,1000 for hatchback or sedan and Rs.1500 for SUV needs to be paid along with the rent",
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 240 },
+                alignment: AlignmentType.JUSTIFIED,
+              }),
+
+              // Continue with remaining clauses...
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "4. The LESSEE shall pay Electricity Charges regularly as applicable to his/her Portion of the premises without default to the EB.",
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 400 },
+                alignment: AlignmentType.JUSTIFIED,
+              }),
+
+              // LESSOR/LESSEE headers with page break
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "LESSOR",
+                    bold: true,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                  new TextRun({
+                    text: "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+                    size: 24,
+                  }),
+                  new TextRun({
+                    text: "LESSEE",
+                    bold: true,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 400 },
+                pageBreakBefore: true,
+              }),
+
+              // Schedule section
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "SCHEDULE",
+                    bold: true,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 240 },
+              }),
+
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: `ALL THAT PIECE AND PARCEL OF FLAT NO.${unitProfile.address} situated in Thiruneermalai Village, Alandur Taluk, Kancheepuram District, within the Registration District of Chennai south and sub-Registration District of Pammal`,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 240 },
+                alignment: AlignmentType.JUSTIFIED,
+              }),
+
+              // Witness section
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "IN WITNESS WHEREOF this agreement upon above mentioned terms and conditions both the LESSOR and LESSSEE are subscribing their respective hands and seals to the day, month and year first above written. SIGNED SEALED AND DELIVERED IN PRESENCE OF WITNESSSES: -",
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 480 },
+                alignment: AlignmentType.JUSTIFIED,
+              }),
+
+              // Signature section
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "1",
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                  new TextRun({
+                    text: "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+                    size: 24,
+                  }),
+                  new TextRun({
+                    text: "SIGNATURE OF THE LESSOR",
+                    bold: true,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 480 },
+              }),
+
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: "2",
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                  new TextRun({
+                    text: "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
+                    size: 24,
+                  }),
+                  new TextRun({
+                    text: "SIGNATURE OF THE LESSEE",
+                    bold: true,
+                    size: 24,
+                    font: "Times New Roman",
+                  }),
+                ],
+                spacing: { after: 240 },
+              }),
+            ],
+          },
+        ],
+      });
+
+      // Generate and download the DOCX file
+      const buffer = await Packer.toBuffer(doc);
+      const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      });
+      saveAs(blob, `Rental_Agreement_${agreement.agreementNumber}.docx`);
     } else {
-      // In a real application, you'd use a DOCX library like docx
-      const blob = new Blob([content], { type: "text/plain" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${agreement.agreementNumber}.txt`;
-      link.click();
-      URL.revokeObjectURL(url);
-      alert(
-        "Agreement downloaded as text file (DOCX generation requires additional library)",
-      );
+      // PDF generation placeholder
+      alert("PDF generation coming soon. Please use DOCX format for now.");
     }
   };
 
