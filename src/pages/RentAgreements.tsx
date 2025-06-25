@@ -875,28 +875,72 @@ SIGNATURES:
                 alignment: AlignmentType.JUSTIFIED,
               }),
 
-              // LESSOR/LESSEE headers with page break
-              new Paragraph({
-                children: [
-                  new TextRun({
-                    text: "LESSOR",
-                    bold: true,
-                    size: 24,
-                    font: "Times New Roman",
-                  }),
-                  new TextRun({
-                    text: "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t",
-                    size: 24,
-                  }),
-                  new TextRun({
-                    text: "LESSEE",
-                    bold: true,
-                    size: 24,
-                    font: "Times New Roman",
+              // LESSOR/LESSEE headers with page break using table
+              new Table({
+                width: {
+                  size: 100,
+                  type: WidthType.PERCENTAGE,
+                },
+                rows: [
+                  new TableRow({
+                    children: [
+                      new TableCell({
+                        children: [
+                          new Paragraph({
+                            children: [
+                              new TextRun({
+                                text: "LESSOR",
+                                bold: true,
+                                size: 24,
+                                font: "Times New Roman",
+                              }),
+                            ],
+                            alignment: AlignmentType.LEFT,
+                          }),
+                        ],
+                        width: {
+                          size: 50,
+                          type: WidthType.PERCENTAGE,
+                        },
+                        borders: {
+                          top: { style: BorderStyle.NONE },
+                          bottom: { style: BorderStyle.NONE },
+                          left: { style: BorderStyle.NONE },
+                          right: { style: BorderStyle.NONE },
+                        },
+                      }),
+                      new TableCell({
+                        children: [
+                          new Paragraph({
+                            children: [
+                              new TextRun({
+                                text: "LESSEE",
+                                bold: true,
+                                size: 24,
+                                font: "Times New Roman",
+                              }),
+                            ],
+                            alignment: AlignmentType.RIGHT,
+                          }),
+                        ],
+                        width: {
+                          size: 50,
+                          type: WidthType.PERCENTAGE,
+                        },
+                        borders: {
+                          top: { style: BorderStyle.NONE },
+                          bottom: { style: BorderStyle.NONE },
+                          left: { style: BorderStyle.NONE },
+                          right: { style: BorderStyle.NONE },
+                        },
+                      }),
+                    ],
                   }),
                 ],
-                spacing: { after: 400 },
-                pageBreakBefore: true,
+                margins: {
+                  top: 240,
+                  bottom: 400,
+                },
               }),
 
               // Schedule section
