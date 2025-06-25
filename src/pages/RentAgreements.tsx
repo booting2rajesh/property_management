@@ -1126,11 +1126,17 @@ SIGNATURES:
       });
 
       // Generate and download the DOCX file
-      const buffer = await Packer.toBuffer(doc);
-      const blob = new Blob([buffer], {
-        type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      });
-      saveAs(blob, `Rental_Agreement_${agreement.agreementNumber}.docx`);
+      Packer.toBuffer(doc)
+        .then((buffer) => {
+          const blob = new Blob([buffer], {
+            type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          });
+          saveAs(blob, `Rental_Agreement_${agreement.agreementNumber}.docx`);
+        })
+        .catch((error) => {
+          console.error("Error generating DOCX:", error);
+          alert("Error generating DOCX file. Please try again.");
+        });
     } else {
       // PDF generation placeholder
       alert("PDF generation coming soon. Please use DOCX format for now.");
