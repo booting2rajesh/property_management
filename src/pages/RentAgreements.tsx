@@ -62,63 +62,74 @@ const RentAgreements = () => {
   const [agreementTemplates, setAgreementTemplates] = useState([
     {
       id: 1,
-      name: "Standard 11-Month Agreement",
+      name: "Standard Chennai Rental Agreement",
       type: "11-month",
-      content: `RENT AGREEMENT
+      content: `RENTAL AGREEMENT
+This Rental Agreement is made on this <Date of agreement signing in this format 26th day of Sep 2024> at Chennai.
+<Lessor Name> <relation> of <relative name>. , aged about 54 years residing at <Lessor Address> herein after called the " LESSOR" which term shall mean and include whatever the context so admits and permits his/her legal heirs, legal representative, executors, administrators and assigns of ONE PART
+                                    AND
+<Lessee Name> D/O of <Father Name>, residing at <Lessee Permanent Address> herein after called the "LESSEE" which term shall mean and include whatever the heirs, legal representative, executors, administrators and assigns of OTHER PART.
 
-This Rent Agreement is made on {agreement_date} between:
+LESSOR                                                                                        LESSEE
 
-LESSOR: PropertyHub Management
-Address: {property_address}
+WHEREAS the LESSOR herein is the sole and absolute owner of all that piece and parcel of the residential flat bearing No. <Rental Unit address> situated in Thiruneermalai Village, Alandur Taluk, Kancheepuram District, within the Registration District of Chennai south and sub-Registration District of Pammal.
+AND WHEREAS THE LESSEE has approached the LESSOR to demise the SCHEDULE mentioned house on monthly rental basis for Residential purpose for a period of 11 months on the terms and conditions hereinafter mentioned and the LESSOR has also hereby agreed to demise the SCHEDULE mentioned house to the LESSEE on a Monthly rental on the following terms and conditions.
+NOW THIS LEASE AGREEMENT WITNESSTH AS FOLLOWS:
+1. The Lease shall be initially for a period of 11 months, commencing from <Agreement signing date in this format - 26.09.2024> upon completion of 11 months
+2. The LESSEE is strictly for residential purposes to accommodate the occupier of the LESSEE. The Lease is according to the English calendar Month.
+3.The LESSEE has agreed to pay the Monthly Amenity Charges on or before 5th day of every Succeeding month for the demised Property more fully described in the SCHEDULE hereunder in the following manner: -
+i.) Rs.<Rent in this format- 13,000>/-per month (Rupees -<Amount in this format Thirteen Thousand Five Hundred only>)
+ii.) Rs. .<Rent in this format-40,000>/- (Rupees -<Amount in this format Forty Thousand only) as one time interest free deposit to be paid by the LESSEE at the time of taking possession of the Premises and refunded by the LESSOR at the time of receiving vacant possession of the premises.
+iii.) In case of LESSEE opting for Car Parking, extra charge of Rs,1000 for hatchback or sedan and Rs.1500 for SUV needs to be paid along with the rent
+4. The LESSEE shall pay Electricity Charges regularly as applicable to his/her Portion of the premises without default to the EB.
+LESSOR                                                                                           LESSEE
+5.That the LESSOR shall have full control over the supervision and management in respect of the said flat and the LESSEE shall not, in any way, interfere with the LESSOR'S right of maintenance nor the LESSOR interfere with the LESSEE'S rights of quite & peaceful undisturbed tenancy & occupation.
+6. The LESSEE should keep the demised premises in good and tenantable condition as, may prudent person would do with his/her property.
+7. The LESSEE shall not use the demised premises for any purpose other than for which it was let out not shall sub-let or sub-lease the portion let out to him to any third party.
+8. The LESSEE shall not commit default on the payment of rents and if the LESSEE fails to pay the monthly rent within the stipulated time for two consecutive months, the lease shall be cancelled, and the LESSEE shall vacant the FLAT forthwith.
+9. The LESSEE covenants to keep the demised premises in good and tenantable condition during the stay and not make any permanent additions or alteration to the same.
+10. That In case of damage caused by the LESSEE to the SAID PREMISES during the period of use, LESSEE shall be held responsible for compensation and other charges and such charges may be adjusted from the security deposit amount when the same is refunded upon completion of the licensing agreement tenure (vacation of house).
+11. The LESSEE shall handle the fittings and fixtures in the Demised premises and maintain the same property.
+12. The LESSOR shall not pay all taxes and levies due to Municipal Corporation.
+13. That the LESSEE shall not create any untoward disturbance or nuisance and shall not allow any anti-social person in the SAID PREMISES.
+14. That the LESSEE shall not keep any illegal inflammable article or explosive that endangers life property.
+LESSOR                                                                                       LESSEE
+15. Either the LESSOR or the LESSEE may terminate the Lease agreement by giving written notice 2 (Two) months in advance. However, the LESSEE is free to terminate the licensing agreement with a shorter notice period in which case the monthly rental for the premises & fixtures only for the period of two months shall be paid as compensation to the LESSOR.
+16. That no interest shall be payable on the deposit amount which would be refunded by the LESSOR after deducting the arrears in rent and damages if any, at the time of LESSEE vacating and handling over the vacant and peaceful possession of the demise premises to LESSOR.
+17. That the Said lease shall stand automatically terminated in case of LESSEE fails to comply with any of the stipulated terms and conditions of this agreement.
+SCHEDULE
+ALL THAT PIECE AND PARCEL OF FLAT NO.<Lessee Unit Address> situated in Thiruneermalai Village, Alandur Taluk, Kancheepuram District, within the Registration District of Chennai south and sub-Registration District of Pammal
+IN WITNESS WHEREOF this agreement upon above mentioned terms and conditions both the LESSOR and LESSSEE are subscribing their respective hands and seals to the day, month and year first above written. SIGNED SEALED AND DELIVERED IN PRESENCE OF WITNESSSES: -
 
-LESSEE: {tenant_name}
-Address: {tenant_address}
+1
+                                                                               SIGNATURE OF THE LESSOR
 
-PROPERTY DETAILS:
-Unit: {unit_number}
-Property: {property_name}
-Address: {property_address}
-
-TERMS AND CONDITIONS:
-
-1. RENT: The monthly rent is ₹{monthly_rent} to be paid by {due_date} each month.
-
-2. SECURITY DEPOSIT: ₹{security_deposit} paid as security deposit.
-
-3. AGREEMENT PERIOD: From {start_date} to {end_date}.
-
-4. MAINTENANCE: Tenant responsible for daily maintenance.
-
-5. TERMINATION: Either party can terminate with 30 days notice.
-
-{special_terms}
-
-LESSOR SIGNATURE: ________________    LESSEE SIGNATURE: ________________
-
-Date: {agreement_date}                Date: {agreement_date}`,
+2
+                                                                               SIGNATURE OF THE LESSEE`,
       createdDate: "2024-01-01",
     },
     {
       id: 2,
-      name: "Monthly Rental Agreement",
+      name: "Simple Monthly Agreement",
       type: "monthly",
-      content: `MONTHLY RENT AGREEMENT
+      content: `MONTHLY RENTAL AGREEMENT
 
-This Monthly Rent Agreement is effective from {start_date} between:
+Date: <Date of agreement signing in this format 26th day of Sep 2024>
 
-OWNER: PropertyHub Management
-TENANT: {tenant_name}
+LESSOR: <Lessor Name>
+Address: <Lessor Address>
 
-PROPERTY: {unit_number}, {property_name}
-MONTHLY RENT: ₹{monthly_rent}
-SECURITY DEPOSIT: ₹{security_deposit}
+LESSEE: <Lessee Name>
+Address: <Lessee Permanent Address>
+
+PROPERTY: <Rental Unit address>
+MONTHLY RENT: Rs.<Rent in this format- 13,000>/-
+SECURITY DEPOSIT: Rs.<Rent in this format-40,000>/-
 
 This agreement is renewable monthly with mutual consent.
 
-{special_terms}
-
 SIGNATURES:
-OWNER: ________________    TENANT: ________________`,
+LESSOR: ________________    LESSEE: ________________`,
       createdDate: "2024-01-01",
     },
   ]);
@@ -312,6 +323,155 @@ OWNER: ________________    TENANT: ________________`,
     setIsEditAgreementOpen(true);
   };
 
+  // Helper function to convert numbers to words
+  const numberToWords = (num: number): string => {
+    const ones = [
+      "",
+      "One",
+      "Two",
+      "Three",
+      "Four",
+      "Five",
+      "Six",
+      "Seven",
+      "Eight",
+      "Nine",
+    ];
+    const teens = [
+      "Ten",
+      "Eleven",
+      "Twelve",
+      "Thirteen",
+      "Fourteen",
+      "Fifteen",
+      "Sixteen",
+      "Seventeen",
+      "Eighteen",
+      "Nineteen",
+    ];
+    const tens = [
+      "",
+      "",
+      "Twenty",
+      "Thirty",
+      "Forty",
+      "Fifty",
+      "Sixty",
+      "Seventy",
+      "Eighty",
+      "Ninety",
+    ];
+    const thousands = ["", "Thousand", "Lakh", "Crore"];
+
+    if (num === 0) return "Zero";
+
+    const convertBelow100 = (n: number): string => {
+      if (n < 10) return ones[n];
+      if (n < 20) return teens[n - 10];
+      return tens[Math.floor(n / 10)] + (n % 10 ? " " + ones[n % 10] : "");
+    };
+
+    const convertBelow1000 = (n: number): string => {
+      let result = "";
+      if (n >= 100) {
+        result += ones[Math.floor(n / 100)] + " Hundred";
+        n %= 100;
+        if (n > 0) result += " ";
+      }
+      if (n > 0) result += convertBelow100(n);
+      return result;
+    };
+
+    let result = "";
+    let place = 0;
+
+    while (num > 0) {
+      let chunk = 0;
+      if (place === 0) chunk = num % 1000;
+      else if (place === 1) chunk = num % 100;
+      else chunk = num % 100;
+
+      if (chunk > 0) {
+        let chunkText = "";
+        if (place === 0) chunkText = convertBelow1000(chunk);
+        else chunkText = convertBelow100(chunk);
+
+        result =
+          chunkText +
+          (thousands[place] ? " " + thousands[place] : "") +
+          (result ? " " + result : "");
+      }
+
+      if (place === 0) num = Math.floor(num / 1000);
+      else num = Math.floor(num / 100);
+      place++;
+    }
+
+    return result + " only";
+  };
+
+  // Helper function to format date in different formats
+  const formatDateForAgreement = (
+    dateString: string,
+    format: string,
+  ): string => {
+    const date = new Date(dateString);
+
+    if (format.includes("26th day of Sep 2024")) {
+      const day = date.getDate();
+      const suffix =
+        day % 10 === 1 && day !== 11
+          ? "st"
+          : day % 10 === 2 && day !== 12
+            ? "nd"
+            : day % 10 === 3 && day !== 13
+              ? "rd"
+              : "th";
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      return `${day}${suffix} day of ${months[date.getMonth()]} ${date.getFullYear()}`;
+    } else if (format.includes("26.09.2024")) {
+      return `${String(date.getDate()).padStart(2, "0")}.${String(date.getMonth() + 1).padStart(2, "0")}.${date.getFullYear()}`;
+    }
+
+    return formatDate(dateString);
+  };
+
+  // Mock data for lessor and lessee profiles
+  const getLessorProfile = () => ({
+    name: "PropertyHub Management Pvt Ltd",
+    relation: "S/O",
+    relativeName: "Raman Kumar",
+    address: "No. 45, Anna Salai, Teynampet, Chennai - 600018, Tamil Nadu",
+    age: 54,
+  });
+
+  const getLesseeProfile = (tenantName: string) => ({
+    name: tenantName,
+    fatherName: "Rajesh Kumar",
+    permanentAddress:
+      "No. 12, Gandhi Street, Adyar, Chennai - 600020, Tamil Nadu",
+    relation: "D/O", // or S/O
+  });
+
+  const getUnitProfile = (unit: string) => ({
+    address: `Flat No. ${unit}, Building A, Sunrise Apartments, No. 123, OMR Main Road, Thiruneermalai Village, Alandur Taluk, Kancheepuram District - 600047`,
+    registrationDistrict: "Chennai South",
+    subRegistrationDistrict: "Pammal",
+  });
+
   const downloadAgreement = (agreement: any, format: "pdf" | "docx") => {
     // Generate agreement content from template
     const template = agreementTemplates.find(
@@ -319,19 +479,53 @@ OWNER: ________________    TENANT: ________________`,
     );
     if (!template) return;
 
+    const lessorProfile = getLessorProfile();
+    const lesseeProfile = getLesseeProfile(agreement.tenant.name);
+    const unitProfile = getUnitProfile(agreement.unit);
+
     let content = template.content
-      .replace(/{tenant_name}/g, agreement.tenant.name)
-      .replace(/{unit_number}/g, agreement.unit)
-      .replace(/{property_name}/g, agreement.property)
-      .replace(/{monthly_rent}/g, agreement.monthlyRent.toLocaleString())
-      .replace(/{security_deposit}/g, agreement.deposit.toLocaleString())
-      .replace(/{start_date}/g, formatDate(agreement.startDate))
-      .replace(/{end_date}/g, formatDate(agreement.endDate))
-      .replace(/{agreement_date}/g, formatDate(agreement.createdDate))
-      .replace(/{special_terms}/g, "")
-      .replace(/{property_address}/g, "123 Main Street, Bangalore")
-      .replace(/{tenant_address}/g, "Tenant Address")
-      .replace(/{due_date}/g, "5th");
+      // Date fields
+      .replace(
+        /<Date of agreement signing in this format 26th day of Sep 2024>/g,
+        formatDateForAgreement(agreement.createdDate, "26th day of Sep 2024"),
+      )
+      .replace(
+        /<Agreement signing date in this format - 26\.09\.2024>/g,
+        formatDateForAgreement(agreement.startDate, "26.09.2024"),
+      )
+
+      // Lessor fields
+      .replace(/<Lessor Name>/g, lessorProfile.name)
+      .replace(/<relation>/g, lessorProfile.relation)
+      .replace(/<relative name>/g, lessorProfile.relativeName)
+      .replace(/<Lessor Address>/g, lessorProfile.address)
+
+      // Lessee fields
+      .replace(/<Lessee Name>/g, lesseeProfile.name)
+      .replace(/<Father Name>/g, lesseeProfile.fatherName)
+      .replace(/<Lessee Permanent Address>/g, lesseeProfile.permanentAddress)
+
+      // Unit fields
+      .replace(/<Rental Unit address>/g, unitProfile.address)
+      .replace(/<Lessee Unit Address>/g, unitProfile.address)
+
+      // Financial fields
+      .replace(
+        /<Rent in this format- 13,000>/g,
+        agreement.monthlyRent.toLocaleString(),
+      )
+      .replace(
+        /<Rent in this format-40,000>/g,
+        agreement.deposit.toLocaleString(),
+      )
+      .replace(
+        /<Amount in this format Thirteen Thousand Five Hundred only>/g,
+        numberToWords(agreement.monthlyRent),
+      )
+      .replace(
+        /<Amount in this format Forty Thousand only>/g,
+        numberToWords(agreement.deposit),
+      );
 
     if (format === "pdf") {
       // In a real application, you'd use a PDF library like jsPDF
@@ -553,7 +747,7 @@ OWNER: ________________    TENANT: ________________`,
                           </Label>
                           <Textarea
                             id="templateContent"
-                            placeholder="Enter template content. Use placeholders like {tenant_name}, {monthly_rent}, etc."
+                            placeholder="Enter template content. Use merge fields like <Lessee Name>, <Rent in this format- 13,000>, etc."
                             rows={10}
                             value={newTemplate.content}
                             onChange={(e) =>
@@ -565,10 +759,13 @@ OWNER: ________________    TENANT: ________________`,
                             required
                           />
                           <p className="text-xs text-gray-500">
-                            Available placeholders:{" "}
-                            {
-                              "{tenant_name}, {unit_number}, {property_name}, {monthly_rent}, {security_deposit}, {start_date}, {end_date}, {agreement_date}, {special_terms}"
-                            }
+                            Available merge fields: &lt;Lessor Name&gt;,
+                            &lt;Lessee Name&gt;, &lt;Father Name&gt;, &lt;Rental
+                            Unit address&gt;, &lt;Rent in this format-
+                            13,000&gt;, &lt;Amount in this format Thirteen
+                            Thousand only&gt;, &lt;Date of agreement signing in
+                            this format 26th day of Sep 2024&gt;, &lt;Agreement
+                            signing date in this format - 26.09.2024&gt;
                           </p>
                         </div>
                         <Button
@@ -952,66 +1149,87 @@ OWNER: ________________    TENANT: ________________`,
                   <div className="bg-white p-6 border rounded-lg">
                     <div className="text-center mb-6">
                       <h2 className="text-2xl font-bold text-primary">
-                        RENT AGREEMENT
+                        RENTAL AGREEMENT
                       </h2>
                       <p className="text-gray-600">
                         Agreement Number: {selectedAgreement.agreementNumber}
                       </p>
                     </div>
 
-                    <div className="space-y-4 text-sm">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <p className="font-semibold">LESSOR:</p>
-                          <p>PropertyHub Management</p>
-                          <p>123 Main Street, Bangalore</p>
-                        </div>
-                        <div>
-                          <p className="font-semibold">LESSEE:</p>
-                          <p>{selectedAgreement.tenant.name}</p>
-                          <p>{selectedAgreement.tenant.email}</p>
-                        </div>
-                      </div>
+                    <div className="space-y-4 text-sm whitespace-pre-wrap">
+                      {(() => {
+                        const template = agreementTemplates.find(
+                          (t) => t.type === selectedAgreement.agreementType,
+                        );
+                        if (!template) return <p>Template not found</p>;
 
-                      <div className="border-t pt-4">
-                        <p className="font-semibold mb-2">PROPERTY DETAILS:</p>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <p>Unit: {selectedAgreement.unit}</p>
-                            <p>Property: {selectedAgreement.property}</p>
+                        const lessorProfile = getLessorProfile();
+                        const lesseeProfile = getLesseeProfile(
+                          selectedAgreement.tenant.name,
+                        );
+                        const unitProfile = getUnitProfile(
+                          selectedAgreement.unit,
+                        );
+
+                        const processedContent = template.content
+                          .replace(
+                            /<Date of agreement signing in this format 26th day of Sep 2024>/g,
+                            formatDateForAgreement(
+                              selectedAgreement.createdDate,
+                              "26th day of Sep 2024",
+                            ),
+                          )
+                          .replace(
+                            /<Agreement signing date in this format - 26\.09\.2024>/g,
+                            formatDateForAgreement(
+                              selectedAgreement.startDate,
+                              "26.09.2024",
+                            ),
+                          )
+                          .replace(/<Lessor Name>/g, lessorProfile.name)
+                          .replace(/<relation>/g, lessorProfile.relation)
+                          .replace(
+                            /<relative name>/g,
+                            lessorProfile.relativeName,
+                          )
+                          .replace(/<Lessor Address>/g, lessorProfile.address)
+                          .replace(/<Lessee Name>/g, lesseeProfile.name)
+                          .replace(/<Father Name>/g, lesseeProfile.fatherName)
+                          .replace(
+                            /<Lessee Permanent Address>/g,
+                            lesseeProfile.permanentAddress,
+                          )
+                          .replace(
+                            /<Rental Unit address>/g,
+                            unitProfile.address,
+                          )
+                          .replace(
+                            /<Lessee Unit Address>/g,
+                            unitProfile.address,
+                          )
+                          .replace(
+                            /<Rent in this format- 13,000>/g,
+                            selectedAgreement.monthlyRent.toLocaleString(),
+                          )
+                          .replace(
+                            /<Rent in this format-40,000>/g,
+                            selectedAgreement.deposit.toLocaleString(),
+                          )
+                          .replace(
+                            /<Amount in this format Thirteen Thousand Five Hundred only>/g,
+                            numberToWords(selectedAgreement.monthlyRent),
+                          )
+                          .replace(
+                            /<Amount in this format Forty Thousand only>/g,
+                            numberToWords(selectedAgreement.deposit),
+                          );
+
+                        return (
+                          <div className="font-mono text-sm">
+                            {processedContent}
                           </div>
-                          <div>
-                            <p>
-                              Monthly Rent: ₹
-                              {selectedAgreement.monthlyRent.toLocaleString()}
-                            </p>
-                            <p>
-                              Security Deposit: ₹
-                              {selectedAgreement.deposit.toLocaleString()}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="border-t pt-4">
-                        <p className="font-semibold mb-2">AGREEMENT PERIOD:</p>
-                        <p>From: {formatDate(selectedAgreement.startDate)}</p>
-                        <p>To: {formatDate(selectedAgreement.endDate)}</p>
-                        <p>Type: {selectedAgreement.agreementType}</p>
-                      </div>
-
-                      <div className="border-t pt-4">
-                        <p className="font-semibold mb-2">
-                          TERMS & CONDITIONS:
-                        </p>
-                        <ul className="list-disc list-inside space-y-1">
-                          <li>Monthly rent to be paid by 5th of each month</li>
-                          <li>Security deposit refundable at end of tenancy</li>
-                          <li>Tenant responsible for daily maintenance</li>
-                          <li>30 days notice required for termination</li>
-                          <li>No subletting without written permission</li>
-                        </ul>
-                      </div>
+                        );
+                      })()}
                     </div>
                   </div>
 
