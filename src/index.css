@@ -97,3 +97,31 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Rental Agreement Print Styles */
+@media print {
+  .page-break {
+    page-break-after: always;
+  }
+
+  .lessor-lessee-parallel {
+    page-break-after: always;
+  }
+
+  .signature-section {
+    page-break-inside: avoid;
+  }
+}
+
+.lessor-lessee-parallel {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  font-weight: bold;
+}
+
+.signature-section {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
