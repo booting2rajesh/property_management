@@ -338,64 +338,31 @@ LESSOR: ________________    LESSEE: ________________`,
 
   // Helper function to convert numbers to words
   const numberToWords = (num: number): string => {
-    const ones = [
-      "",
-      "One",
-      "Two",
-      "Three",
-      "Four",
-      "Five",
-      "Six",
-      "Seven",
-      "Eight",
-      "Nine",
-    ];
-    const teens = [
-      "Ten",
-      "Eleven",
-      "Twelve",
-      "Thirteen",
-      "Fourteen",
-      "Fifteen",
-      "Sixteen",
-      "Seventeen",
-      "Eighteen",
-      "Nineteen",
-    ];
-    const tens = [
-      "",
-      "",
-      "Twenty",
-      "Thirty",
-      "Forty",
-      "Fifty",
-      "Sixty",
-      "Seventy",
-      "Eighty",
-      "Ninety",
-    ];
-    const thousands = ["", "Thousand", "Lakh", "Crore"];
+    const ones = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+    const teens = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+    const tens = ['', '', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+    const thousands = ['', 'Thousand', 'Lakh', 'Crore'];
 
-    if (num === 0) return "Zero";
+    if (num === 0) return 'Zero';
 
     const convertBelow100 = (n: number): string => {
       if (n < 10) return ones[n];
       if (n < 20) return teens[n - 10];
-      return tens[Math.floor(n / 10)] + (n % 10 ? " " + ones[n % 10] : "");
+      return tens[Math.floor(n / 10)] + (n % 10 ? ' ' + ones[n % 10] : '');
     };
 
     const convertBelow1000 = (n: number): string => {
-      let result = "";
+      let result = '';
       if (n >= 100) {
-        result += ones[Math.floor(n / 100)] + " Hundred";
+        result += ones[Math.floor(n / 100)] + ' Hundred';
         n %= 100;
-        if (n > 0) result += " ";
+        if (n > 0) result += ' ';
       }
       if (n > 0) result += convertBelow100(n);
       return result;
     };
 
-    let result = "";
+    let result = '';
     let place = 0;
 
     while (num > 0) {
@@ -405,14 +372,11 @@ LESSOR: ________________    LESSEE: ________________`,
       else chunk = num % 100;
 
       if (chunk > 0) {
-        let chunkText = "";
+        let chunkText = '';
         if (place === 0) chunkText = convertBelow1000(chunk);
         else chunkText = convertBelow100(chunk);
 
-        result =
-          chunkText +
-          (thousands[place] ? " " + thousands[place] : "") +
-          (result ? " " + result : "");
+        result = chunkText + (thousands[place] ? ' ' + thousands[place] : '') + (result ? ' ' + result : '');
       }
 
       if (place === 0) num = Math.floor(num / 1000);
@@ -420,43 +384,22 @@ LESSOR: ________________    LESSEE: ________________`,
       place++;
     }
 
-    return result + " only";
+    return result + ' only';
   };
 
   // Helper function to format date in different formats
-  const formatDateForAgreement = (
-    dateString: string,
-    format: string,
-  ): string => {
+  const formatDateForAgreement = (dateString: string, format: string): string => {
     const date = new Date(dateString);
 
-    if (format.includes("26th day of Sep 2024")) {
+    if (format.includes('26th day of Sep 2024')) {
       const day = date.getDate();
-      const suffix =
-        day % 10 === 1 && day !== 11
-          ? "st"
-          : day % 10 === 2 && day !== 12
-            ? "nd"
-            : day % 10 === 3 && day !== 13
-              ? "rd"
-              : "th";
-      const months = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
+      const suffix = day % 10 === 1 && day !== 11 ? 'st' :
+                   day % 10 === 2 && day !== 12 ? 'nd' :
+                   day % 10 === 3 && day !== 13 ? 'rd' : 'th';
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
       return `${day}${suffix} day of ${months[date.getMonth()]} ${date.getFullYear()}`;
-    } else if (format.includes("26.09.2024")) {
-      return `${String(date.getDate()).padStart(2, "0")}.${String(date.getMonth() + 1).padStart(2, "0")}.${date.getFullYear()}`;
+    } else if (format.includes('26.09.2024')) {
+      return `${String(date.getDate()).padStart(2, '0')}.${String(date.getMonth() + 1).padStart(2, '0')}.${date.getFullYear()}`;
     }
 
     return formatDate(dateString);
@@ -474,8 +417,7 @@ LESSOR: ________________    LESSEE: ________________`,
   const getLesseeProfile = (tenantName: string) => ({
     name: tenantName,
     fatherName: "Rajesh Kumar",
-    permanentAddress:
-      "No. 12, Gandhi Street, Adyar, Chennai - 600020, Tamil Nadu",
+    permanentAddress: "No. 12, Gandhi Street, Adyar, Chennai - 600020, Tamil Nadu",
     relation: "D/O", // or S/O
   });
 
@@ -485,11 +427,9 @@ LESSOR: ________________    LESSEE: ________________`,
     subRegistrationDistrict: "Pammal",
   });
 
-  const downloadAgreement = (agreement: any, format: "pdf" | "docx") => {
+  const downloadAgreement = (agreement: any, format: 'pdf' | 'docx') => {
     // Generate agreement content from template
-    const template = agreementTemplates.find(
-      (t) => t.type === agreement.agreementType,
-    );
+    const template = agreementTemplates.find(t => t.type === agreement.agreementType);
     if (!template) return;
 
     const lessorProfile = getLessorProfile();
@@ -498,14 +438,10 @@ LESSOR: ________________    LESSEE: ________________`,
 
     let content = template.content
       // Date fields
-      .replace(
-        /<Date of agreement signing in this format 26th day of Sep 2024>/g,
-        formatDateForAgreement(agreement.createdDate, "26th day of Sep 2024"),
-      )
-      .replace(
-        /<Agreement signing date in this format - 26\.09\.2024>/g,
-        formatDateForAgreement(agreement.startDate, "26.09.2024"),
-      )
+      .replace(/<Date of agreement signing in this format 26th day of Sep 2024>/g,
+        formatDateForAgreement(agreement.createdDate, '26th day of Sep 2024'))
+      .replace(/<Agreement signing date in this format - 26\.09\.2024>/g,
+        formatDateForAgreement(agreement.startDate, '26.09.2024'))
 
       // Lessor fields
       .replace(/<Lessor Name>/g, lessorProfile.name)
@@ -523,47 +459,33 @@ LESSOR: ________________    LESSEE: ________________`,
       .replace(/<Lessee Unit Address>/g, unitProfile.address)
 
       // Financial fields
-      .replace(
-        /<Rent in this format- 13,000>/g,
-        agreement.monthlyRent.toLocaleString(),
-      )
-      .replace(
-        /<Rent in this format-40,000>/g,
-        agreement.deposit.toLocaleString(),
-      )
-      .replace(
-        /<Amount in this format Thirteen Thousand Five Hundred only>/g,
-        numberToWords(agreement.monthlyRent),
-      )
-      .replace(
-        /<Amount in this format Forty Thousand only>/g,
-        numberToWords(agreement.deposit),
-      );
+      .replace(/<Rent in this format- 13,000>/g, agreement.monthlyRent.toLocaleString())
+      .replace(/<Rent in this format-40,000>/g, agreement.deposit.toLocaleString())
+      .replace(/<Amount in this format Thirteen Thousand Five Hundred only>/g,
+        numberToWords(agreement.monthlyRent))
+      .replace(/<Amount in this format Forty Thousand only>/g,
+        numberToWords(agreement.deposit));
 
-    if (format === "pdf") {
+    if (format === 'pdf') {
       // In a real application, you'd use a PDF library like jsPDF
-      const blob = new Blob([content], { type: "text/plain" });
+      const blob = new Blob([content], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = url;
       link.download = `${agreement.agreementNumber}.txt`;
       link.click();
       URL.revokeObjectURL(url);
-      alert(
-        "Agreement downloaded as text file (PDF generation requires additional library)",
-      );
+      alert('Agreement downloaded as text file (PDF generation requires additional library)');
     } else {
       // In a real application, you'd use a DOCX library like docx
-      const blob = new Blob([content], { type: "text/plain" });
+      const blob = new Blob([content], { type: 'text/plain' });
       const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = url;
       link.download = `${agreement.agreementNumber}.txt`;
       link.click();
       URL.revokeObjectURL(url);
-      alert(
-        "Agreement downloaded as text file (DOCX generation requires additional library)",
-      );
+      alert('Agreement downloaded as text file (DOCX generation requires additional library)');
     }
   };
 
@@ -571,20 +493,18 @@ LESSOR: ________________    LESSEE: ________________`,
     e.preventDefault();
     if (!editingAgreement) return;
 
-    setAgreements((prev) =>
-      prev.map((agreement) =>
-        agreement.id === editingAgreement.id
-          ? {
-              ...agreement,
-              startDate: agreementFormData.startDate,
-              endDate: agreementFormData.endDate,
-              monthlyRent: parseInt(agreementFormData.monthlyRent),
-              deposit: parseInt(agreementFormData.deposit),
-              agreementType: agreementFormData.agreementType,
-            }
-          : agreement,
-      ),
-    );
+    setAgreements(prev => prev.map(agreement =>
+      agreement.id === editingAgreement.id
+        ? {
+            ...agreement,
+            startDate: agreementFormData.startDate,
+            endDate: agreementFormData.endDate,
+            monthlyRent: parseInt(agreementFormData.monthlyRent),
+            deposit: parseInt(agreementFormData.deposit),
+            agreementType: agreementFormData.agreementType,
+          }
+        : agreement
+    ));
 
     setIsEditAgreementOpen(false);
     setEditingAgreement(null);
@@ -608,15 +528,47 @@ LESSOR: ________________    LESSEE: ________________`,
       name: newTemplate.name,
       type: newTemplate.type,
       content: newTemplate.content,
-      createdDate: new Date().toISOString().split("T")[0],
+      createdDate: new Date().toISOString().split('T')[0],
     };
 
-    setAgreementTemplates((prev) => [...prev, template]);
+    setAgreementTemplates(prev => [...prev, template]);
     setNewTemplate({ name: "", type: "", content: "" });
     setIsTemplateModalOpen(false);
   };
 
   return (
+    <>
+      <style jsx>{`
+        @media print {
+          .page-break {
+            page-break-after: always;
+          }
+          .signature-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            page-break-inside: avoid;
+          }
+          .lessor-lessee-parallel {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+            font-weight: bold;
+            page-break-after: always;
+          }
+        }
+        .lessor-lessee-parallel {
+          display: flex;
+          justify-content: space-between;
+          margin: 20px 0;
+          font-weight: bold;
+        }
+        .signature-section {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 40px;
+        }
+      `}</style>
     <div className="flex h-screen bg-gray-50">
       <Sidebar currentPath="/rent-agreements" />
 
@@ -671,35 +623,19 @@ LESSOR: ________________    LESSEE: ________________`,
                       {agreementTemplates.map((template) => (
                         <Card key={template.id}>
                           <CardHeader>
-                            <CardTitle className="text-lg">
-                              {template.name}
-                            </CardTitle>
+                            <CardTitle className="text-lg">{template.name}</CardTitle>
                           </CardHeader>
                           <CardContent>
                             <div className="space-y-2">
-                              <p className="text-sm text-gray-600">
-                                Type: {template.type}
-                              </p>
-                              <p className="text-sm text-gray-600">
-                                Created: {formatDate(template.createdDate)}
-                              </p>
+                              <p className="text-sm text-gray-600">Type: {template.type}</p>
+                              <p className="text-sm text-gray-600">Created: {formatDate(template.createdDate)}</p>
                               <div className="bg-gray-50 p-3 rounded text-sm max-h-32 overflow-y-auto">
                                 {template.content.substring(0, 200)}...
                               </div>
                               <div className="flex gap-2">
-                                <Button size="sm" variant="outline">
-                                  Edit
-                                </Button>
-                                <Button size="sm" variant="outline">
-                                  Download
-                                </Button>
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  className="text-red-600"
-                                >
-                                  Delete
-                                </Button>
+                                <Button size="sm" variant="outline">Edit</Button>
+                                <Button size="sm" variant="outline">Download</Button>
+                                <Button size="sm" variant="outline" className="text-red-600">Delete</Button>
                               </div>
                             </div>
                           </CardContent>
@@ -708,22 +644,14 @@ LESSOR: ________________    LESSEE: ________________`,
                     </TabsContent>
 
                     <TabsContent value="create" className="space-y-4">
-                      <form
-                        onSubmit={handleCreateTemplate}
-                        className="space-y-4"
-                      >
+                      <form onSubmit={handleCreateTemplate} className="space-y-4">
                         <div className="space-y-2">
                           <Label htmlFor="templateName">Template Name</Label>
                           <Input
                             id="templateName"
                             placeholder="Enter template name"
                             value={newTemplate.name}
-                            onChange={(e) =>
-                              setNewTemplate((prev) => ({
-                                ...prev,
-                                name: e.target.value,
-                              }))
-                            }
+                            onChange={(e) => setNewTemplate(prev => ({ ...prev, name: e.target.value }))}
                             required
                           />
                         </div>
@@ -731,60 +659,33 @@ LESSOR: ________________    LESSEE: ________________`,
                           <Label htmlFor="templateType">Template Type</Label>
                           <Select
                             value={newTemplate.type}
-                            onValueChange={(value) =>
-                              setNewTemplate((prev) => ({
-                                ...prev,
-                                type: value,
-                              }))
-                            }
+                            onValueChange={(value) => setNewTemplate(prev => ({ ...prev, type: value }))}
                           >
                             <SelectTrigger>
                               <SelectValue placeholder="Select type" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="11-month">
-                                11 Month Agreement
-                              </SelectItem>
-                              <SelectItem value="yearly">
-                                Yearly Agreement
-                              </SelectItem>
-                              <SelectItem value="monthly">
-                                Monthly Agreement
-                              </SelectItem>
+                              <SelectItem value="11-month">11 Month Agreement</SelectItem>
+                              <SelectItem value="yearly">Yearly Agreement</SelectItem>
+                              <SelectItem value="monthly">Monthly Agreement</SelectItem>
                             </SelectContent>
                           </Select>
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="templateContent">
-                            Template Content
-                          </Label>
+                          <Label htmlFor="templateContent">Template Content</Label>
                           <Textarea
                             id="templateContent"
                             placeholder="Enter template content. Use merge fields like <Lessee Name>, <Rent in this format- 13,000>, etc."
                             rows={10}
                             value={newTemplate.content}
-                            onChange={(e) =>
-                              setNewTemplate((prev) => ({
-                                ...prev,
-                                content: e.target.value,
-                              }))
-                            }
+                            onChange={(e) => setNewTemplate(prev => ({ ...prev, content: e.target.value }))}
                             required
                           />
                           <p className="text-xs text-gray-500">
-                            Available merge fields: &lt;Lessor Name&gt;,
-                            &lt;Lessee Name&gt;, &lt;Father Name&gt;, &lt;Rental
-                            Unit address&gt;, &lt;Rent in this format-
-                            13,000&gt;, &lt;Amount in this format Thirteen
-                            Thousand only&gt;, &lt;Date of agreement signing in
-                            this format 26th day of Sep 2024&gt;, &lt;Agreement
-                            signing date in this format - 26.09.2024&gt;
+                            Available merge fields: &lt;Lessor Name&gt;, &lt;Lessee Name&gt;, &lt;Father Name&gt;, &lt;Rental Unit address&gt;, &lt;Rent in this format- 13,000&gt;, &lt;Amount in this format Thirteen Thousand only&gt;, &lt;Date of agreement signing in this format 26th day of Sep 2024&gt;, &lt;Agreement signing date in this format - 26.09.2024&gt;
                           </p>
                         </div>
-                        <Button
-                          type="submit"
-                          className="w-full bg-primary hover:bg-primary/90"
-                        >
+                        <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
                           Create Template
                         </Button>
                       </form>
@@ -1094,7 +995,7 @@ LESSOR: ________________    LESSEE: ________________`,
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => downloadAgreement(agreement, "pdf")}
+                        onClick={() => downloadAgreement(agreement, 'pdf')}
                       >
                         <Download className="w-4 h-4 mr-1" />
                         PDF
@@ -1102,7 +1003,7 @@ LESSOR: ________________    LESSEE: ________________`,
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => downloadAgreement(agreement, "docx")}
+                        onClick={() => downloadAgreement(agreement, 'docx')}
                       >
                         <Download className="w-4 h-4 mr-1" />
                         DOCX
@@ -1147,118 +1048,61 @@ LESSOR: ________________    LESSEE: ________________`,
           )}
 
           {/* View Agreement Modal */}
-          <Dialog
-            open={isViewAgreementOpen}
-            onOpenChange={setIsViewAgreementOpen}
-          >
+          <Dialog open={isViewAgreementOpen} onOpenChange={setIsViewAgreementOpen}>
             <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>
-                  View Agreement - {selectedAgreement?.agreementNumber}
-                </DialogTitle>
+                <DialogTitle>View Agreement - {selectedAgreement?.agreementNumber}</DialogTitle>
               </DialogHeader>
               {selectedAgreement && (
                 <div className="space-y-6">
                   <div className="bg-white p-6 border rounded-lg">
                     <div className="text-center mb-6">
-                      <h2 className="text-2xl font-bold text-primary">
-                        RENTAL AGREEMENT
-                      </h2>
-                      <p className="text-gray-600">
-                        Agreement Number: {selectedAgreement.agreementNumber}
-                      </p>
+                      <h2 className="text-2xl font-bold text-primary">RENTAL AGREEMENT</h2>
+                      <p className="text-gray-600">Agreement Number: {selectedAgreement.agreementNumber}</p>
                     </div>
 
                     <div className="space-y-4 text-sm whitespace-pre-wrap">
                       {(() => {
-                        const template = agreementTemplates.find(
-                          (t) => t.type === selectedAgreement.agreementType,
-                        );
+                        const template = agreementTemplates.find(t => t.type === selectedAgreement.agreementType);
                         if (!template) return <p>Template not found</p>;
 
                         const lessorProfile = getLessorProfile();
-                        const lesseeProfile = getLesseeProfile(
-                          selectedAgreement.tenant.name,
-                        );
-                        const unitProfile = getUnitProfile(
-                          selectedAgreement.unit,
-                        );
+                        const lesseeProfile = getLesseeProfile(selectedAgreement.tenant.name);
+                        const unitProfile = getUnitProfile(selectedAgreement.unit);
 
                         const processedContent = template.content
-                          .replace(
-                            /<Date of agreement signing in this format 26th day of Sep 2024>/g,
-                            formatDateForAgreement(
-                              selectedAgreement.createdDate,
-                              "26th day of Sep 2024",
-                            ),
-                          )
-                          .replace(
-                            /<Agreement signing date in this format - 26\.09\.2024>/g,
-                            formatDateForAgreement(
-                              selectedAgreement.startDate,
-                              "26.09.2024",
-                            ),
-                          )
+                          .replace(/<Date of agreement signing in this format 26th day of Sep 2024>/g,
+                            formatDateForAgreement(selectedAgreement.createdDate, '26th day of Sep 2024'))
+                          .replace(/<Agreement signing date in this format - 26\.09\.2024>/g,
+                            formatDateForAgreement(selectedAgreement.startDate, '26.09.2024'))
                           .replace(/<Lessor Name>/g, lessorProfile.name)
                           .replace(/<relation>/g, lessorProfile.relation)
-                          .replace(
-                            /<relative name>/g,
-                            lessorProfile.relativeName,
-                          )
+                          .replace(/<relative name>/g, lessorProfile.relativeName)
                           .replace(/<Lessor Address>/g, lessorProfile.address)
                           .replace(/<Lessee Name>/g, lesseeProfile.name)
                           .replace(/<Father Name>/g, lesseeProfile.fatherName)
-                          .replace(
-                            /<Lessee Permanent Address>/g,
-                            lesseeProfile.permanentAddress,
-                          )
-                          .replace(
-                            /<Rental Unit address>/g,
-                            unitProfile.address,
-                          )
-                          .replace(
-                            /<Lessee Unit Address>/g,
-                            unitProfile.address,
-                          )
-                          .replace(
-                            /<Rent in this format- 13,000>/g,
-                            selectedAgreement.monthlyRent.toLocaleString(),
-                          )
-                          .replace(
-                            /<Rent in this format-40,000>/g,
-                            selectedAgreement.deposit.toLocaleString(),
-                          )
-                          .replace(
-                            /<Amount in this format Thirteen Thousand Five Hundred only>/g,
-                            numberToWords(selectedAgreement.monthlyRent),
-                          )
-                          .replace(
-                            /<Amount in this format Forty Thousand only>/g,
-                            numberToWords(selectedAgreement.deposit),
-                          );
+                          .replace(/<Lessee Permanent Address>/g, lesseeProfile.permanentAddress)
+                          .replace(/<Rental Unit address>/g, unitProfile.address)
+                          .replace(/<Lessee Unit Address>/g, unitProfile.address)
+                          .replace(/<Rent in this format- 13,000>/g, selectedAgreement.monthlyRent.toLocaleString())
+                          .replace(/<Rent in this format-40,000>/g, selectedAgreement.deposit.toLocaleString())
+                          .replace(/<Amount in this format Thirteen Thousand Five Hundred only>/g,
+                            numberToWords(selectedAgreement.monthlyRent))
+                          .replace(/<Amount in this format Forty Thousand only>/g,
+                            numberToWords(selectedAgreement.deposit));
 
-                        return (
-                          <div className="font-mono text-sm">
-                            {processedContent}
-                          </div>
-                        );
+                        return <div className="font-mono text-sm">{processedContent}</div>;
                       })()}
                     </div>
                   </div>
 
                   <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      className="flex-1"
-                      onClick={() => setIsViewAgreementOpen(false)}
-                    >
+                    <Button variant="outline" className="flex-1" onClick={() => setIsViewAgreementOpen(false)}>
                       Close
                     </Button>
                     <Button
                       className="flex-1"
-                      onClick={() =>
-                        downloadAgreement(selectedAgreement, "pdf")
-                      }
+                      onClick={() => downloadAgreement(selectedAgreement, 'pdf')}
                     >
                       <Download className="w-4 h-4 mr-2" />
                       Download PDF
@@ -1270,15 +1114,10 @@ LESSOR: ________________    LESSEE: ________________`,
           </Dialog>
 
           {/* Edit Agreement Modal */}
-          <Dialog
-            open={isEditAgreementOpen}
-            onOpenChange={setIsEditAgreementOpen}
-          >
+          <Dialog open={isEditAgreementOpen} onOpenChange={setIsEditAgreementOpen}>
             <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>
-                  Edit Agreement - {editingAgreement?.agreementNumber}
-                </DialogTitle>
+                <DialogTitle>Edit Agreement - {editingAgreement?.agreementNumber}</DialogTitle>
               </DialogHeader>
               <form onSubmit={handleUpdateAgreement} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
@@ -1360,9 +1199,7 @@ LESSOR: ________________    LESSEE: ________________`,
                       <SelectValue placeholder="Select agreement type" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="11-month">
-                        11 Month Agreement
-                      </SelectItem>
+                      <SelectItem value="11-month">11 Month Agreement</SelectItem>
                       <SelectItem value="yearly">Yearly Agreement</SelectItem>
                       <SelectItem value="monthly">Monthly Agreement</SelectItem>
                     </SelectContent>
