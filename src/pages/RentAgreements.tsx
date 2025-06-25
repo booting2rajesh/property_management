@@ -86,7 +86,7 @@ ii.) Rs.<Rent in this format-40,000>/- (Rupees -<Amount in this format Forty Tho
 iii.) In case of LESSEE opting for Car Parking, extra charge of Rs,1000 for hatchback or sedan and Rs.1500 for SUV needs to be paid along with the rent
 4. The LESSEE shall pay Electricity Charges regularly as applicable to his/her Portion of the premises without default to the EB.
 
-<div style="display: flex; justify-content: space-between; margin: 20px 0; page-break-after: always;">
+<div class="lessor-lessee-parallel">
 <div>LESSOR</div>
 <div>LESSEE</div>
 </div>
