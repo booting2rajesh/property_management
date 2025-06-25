@@ -515,7 +515,7 @@ SIGNATURES:
     subRegistrationDistrict: "Pammal",
   });
 
-  const downloadAgreement = async (agreement: any, format: "pdf" | "docx") => {
+  const downloadAgreement = (agreement: any, format: "pdf" | "docx") => {
     const template = agreementTemplates.find(
       (t) => t.type === agreement.agreementType,
     );
