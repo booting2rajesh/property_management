@@ -1002,7 +1002,7 @@ const Tenants = () => {
               <DialogHeader>
                 <DialogTitle>Edit Tenant - {selectedTenant?.name}</DialogTitle>
               </DialogHeader>
-              <form onSubmit={handleAddTenant} className="space-y-6">
+              <form onSubmit={handleEditTenant} className="space-y-6">
                 <Tabs defaultValue="personal" className="space-y-4">
                   <TabsList className="grid w-full grid-cols-4">
                     <TabsTrigger value="personal">Personal</TabsTrigger>
