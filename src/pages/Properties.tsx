@@ -88,6 +88,7 @@ const Properties = () => {
   );
   const [isPropertyDetailOpen, setIsPropertyDetailOpen] = useState(false);
   const [isEditPropertyOpen, setIsEditPropertyOpen] = useState(false);
+  const [isAddUnitOpen, setIsAddUnitOpen] = useState(false);
   const [unitStatusFilter, setUnitStatusFilter] = useState<string>("all");
 
   const [propertyFormData, setPropertyFormData] = useState({
@@ -97,7 +98,20 @@ const Properties = () => {
     amenities: [] as string[],
   });
 
+  const [unitFormData, setUnitFormData] = useState({
+    unitNumber: "",
+    type: "",
+    floor: "",
+    size: "",
+    rent: "",
+    advance: "",
+    description: "",
+    amenities: [] as string[],
+  });
+
   const [propertyImages, setPropertyImages] = useState<UploadedFile[]>([]);
+  const [unitImages, setUnitImages] = useState<UploadedFile[]>([]);
+  const [editingProperty, setEditingProperty] = useState<Property | null>(null);
 
   const [properties, setProperties] = useState<Property[]>([
     {
