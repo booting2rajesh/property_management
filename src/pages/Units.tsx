@@ -943,6 +943,81 @@ const Units = () => {
                         </div>
                       )}
                     </TabsContent>
+
+                    <TabsContent value="history" className="space-y-4">
+                      <h4 className="font-semibold">Tenant History Timeline</h4>
+                      {selectedUnit.tenantHistory.length > 0 ? (
+                        <div className="space-y-4">
+                          {selectedUnit.tenantHistory.map((history, index) => (
+                            <Card key={index} className="p-4">
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center gap-2">
+                                  <User className="w-4 h-4" />
+                                  <span className="font-medium">
+                                    {history.tenantName}
+                                  </span>
+                                  <Badge
+                                    variant={
+                                      history.status === "current"
+                                        ? "default"
+                                        : "secondary"
+                                    }
+                                  >
+                                    {history.status}
+                                  </Badge>
+                                </div>
+                                <span className="text-sm font-medium text-green-600">
+                                  {history.rent}
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-4 text-sm text-gray-600">
+                                <div className="flex items-center gap-1">
+                                  <Calendar className="w-3 h-3" />
+                                  <span>
+                                    Move-in:{" "}
+                                    {new Date(
+                                      history.moveInDate,
+                                    ).toLocaleDateString()}
+                                  </span>
+                                </div>
+                                {history.moveOutDate && (
+                                  <div className="flex items-center gap-1">
+                                    <Calendar className="w-3 h-3" />
+                                    <span>
+                                      Move-out:{" "}
+                                      {new Date(
+                                        history.moveOutDate,
+                                      ).toLocaleDateString()}
+                                    </span>
+                                  </div>
+                                )}
+                                {history.status === "current" && (
+                                  <Badge className="text-xs bg-green-100 text-green-700">
+                                    Currently Staying
+                                  </Badge>
+                                )}
+                              </div>
+                              {history.moveOutDate && (
+                                <div className="mt-2 text-xs text-gray-500">
+                                  Duration:{" "}
+                                  {Math.ceil(
+                                    (new Date(history.moveOutDate).getTime() -
+                                      new Date(history.moveInDate).getTime()) /
+                                      (1000 * 60 * 60 * 24 * 30),
+                                  )}{" "}
+                                  months
+                                </div>
+                              )}
+                            </Card>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-center py-8">
+                          <Calendar className="w-12 h-12 mx-auto text-gray-400 mb-2" />
+                          <p className="text-gray-500">No tenant history</p>
+                        </div>
+                      )}
+                    </TabsContent>
                   </Tabs>
                 </>
               )}
