@@ -778,7 +778,7 @@ const Properties = () => {
                     </TabsContent>
 
                     <TabsContent value="units" className="space-y-4">
-                      <div className="flex items-center gap-4 mb-4">
+                      <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-2">
                           <Filter className="w-4 h-4" />
                           <Select
@@ -803,6 +803,13 @@ const Properties = () => {
                             </SelectContent>
                           </Select>
                         </div>
+                        <Button
+                          onClick={() => openAddUnit(selectedProperty)}
+                          className="bg-primary hover:bg-primary/90"
+                        >
+                          <Plus className="w-4 h-4 mr-2" />
+                          Add Unit
+                        </Button>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
