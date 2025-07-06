@@ -313,6 +313,87 @@ const Properties = () => {
     setPropertyImages([]);
   };
 
+  const handleEditProperty = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingProperty) return;
+
+    const updatedProperty: Property = {
+      ...editingProperty,
+      name: propertyFormData.name,
+      address: propertyFormData.address,
+      images: propertyImages,
+      amenities: propertyFormData.amenities,
+    };
+
+    setProperties((prev) =>
+      prev.map((p) => (p.id === editingProperty.id ? updatedProperty : p)),
+    );
+    setIsEditPropertyOpen(false);
+    setEditingProperty(null);
+    setPropertyFormData({
+      name: "",
+      address: "",
+      totalUnits: "",
+      amenities: [],
+    });
+    setPropertyImages([]);
+  };
+
+  const handleAddUnit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedProperty) return;
+
+    const newUnit: Unit = {
+      id: Math.max(...selectedProperty.units.map((u) => u.id), 0) + 1,
+      unitNumber: unitFormData.unitNumber,
+      type: unitFormData.type,
+      size: `${unitFormData.size} sq ft`,
+      floor: parseInt(unitFormData.floor),
+      rent: `₹${unitFormData.rent}`,
+      status: "vacant",
+      amenities: unitFormData.amenities,
+      images: unitImages,
+    };
+
+    setProperties((prev) =>
+      prev.map((p) =>
+        p.id === selectedProperty.id
+          ? { ...p, units: [...p.units, newUnit] }
+          : p,
+      ),
+    );
+
+    setIsAddUnitOpen(false);
+    setUnitFormData({
+      unitNumber: "",
+      type: "",
+      floor: "",
+      size: "",
+      rent: "",
+      advance: "",
+      description: "",
+      amenities: [],
+    });
+    setUnitImages([]);
+  };
+
+  const openEditProperty = (property: Property) => {
+    setEditingProperty(property);
+    setPropertyFormData({
+      name: property.name,
+      address: property.address,
+      totalUnits: property.totalUnits.toString(),
+      amenities: property.amenities,
+    });
+    setPropertyImages(property.images);
+    setIsEditPropertyOpen(true);
+  };
+
+  const openAddUnit = (property: Property) => {
+    setSelectedProperty(property);
+    setIsAddUnitOpen(true);
+  };
+
   const viewPropertyDetails = (property: Property) => {
     setSelectedProperty(property);
     setIsPropertyDetailOpen(true);
