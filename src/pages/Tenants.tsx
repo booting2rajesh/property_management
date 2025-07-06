@@ -938,6 +938,288 @@ const Tenants = () => {
               )}
             </DialogContent>
           </Dialog>
+
+          {/* Edit Tenant Modal */}
+          <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+            <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Edit Tenant - {selectedTenant?.name}</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleAddTenant} className="space-y-6">
+                <Tabs defaultValue="personal" className="space-y-4">
+                  <TabsList className="grid w-full grid-cols-4">
+                    <TabsTrigger value="personal">Personal</TabsTrigger>
+                    <TabsTrigger value="rental">Rental Info</TabsTrigger>
+                    <TabsTrigger value="documents">Documents</TabsTrigger>
+                    <TabsTrigger value="emergency">Emergency</TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="personal" className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-fullName">Full Name</Label>
+                        <Input
+                          id="edit-fullName"
+                          name="fullName"
+                          placeholder="Enter full name"
+                          value={formData.fullName}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-email">Email</Label>
+                        <Input
+                          id="edit-email"
+                          name="email"
+                          type="email"
+                          placeholder="Enter email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-phone">Phone</Label>
+                        <Input
+                          id="edit-phone"
+                          name="phone"
+                          placeholder="Enter phone number"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-aadhaarNumber">
+                          Aadhaar Number
+                        </Label>
+                        <Input
+                          id="edit-aadhaarNumber"
+                          name="aadhaarNumber"
+                          placeholder="Enter Aadhaar number"
+                          value={formData.aadhaarNumber}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-occupation">Occupation</Label>
+                        <Input
+                          id="edit-occupation"
+                          name="occupation"
+                          placeholder="Enter occupation"
+                          value={formData.occupation}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-monthlyIncome">
+                          Monthly Income
+                        </Label>
+                        <Input
+                          id="edit-monthlyIncome"
+                          name="monthlyIncome"
+                          placeholder="Enter monthly income"
+                          value={formData.monthlyIncome}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="edit-permanentAddress">
+                        Permanent Address
+                      </Label>
+                      <Textarea
+                        id="edit-permanentAddress"
+                        name="permanentAddress"
+                        placeholder="Enter permanent address"
+                        value={formData.permanentAddress}
+                        onChange={handleInputChange}
+                        required
+                      />
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="rental" className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-propertyName">Property Name</Label>
+                        <Select
+                          value={formData.propertyName}
+                          onValueChange={(value) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              propertyName: value,
+                            }))
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select property" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Sunrise Apartments">
+                              Sunrise Apartments
+                            </SelectItem>
+                            <SelectItem value="Green Valley Residency">
+                              Green Valley Residency
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-unit">Unit</Label>
+                        <Input
+                          id="edit-unit"
+                          name="unit"
+                          placeholder="e.g., A-101"
+                          value={formData.unit}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-monthlyRent">Monthly Rent</Label>
+                        <Input
+                          id="edit-monthlyRent"
+                          name="monthlyRent"
+                          type="number"
+                          placeholder="Enter monthly rent"
+                          value={formData.monthlyRent}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-advance">Security Deposit</Label>
+                        <Input
+                          id="edit-advance"
+                          name="advance"
+                          type="number"
+                          placeholder="Enter security deposit"
+                          value={formData.advance}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-occupancyDate">Move-in Date</Label>
+                        <Input
+                          id="edit-occupancyDate"
+                          name="occupancyDate"
+                          type="date"
+                          value={formData.occupancyDate}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="documents" className="space-y-4">
+                    <div className="space-y-4">
+                      <div>
+                        <Label className="text-base font-medium">
+                          Identity Proofs
+                        </Label>
+                        <p className="text-sm text-gray-600 mb-3">
+                          Upload Aadhaar card, PAN card, passport, etc.
+                        </p>
+                        <FileUpload
+                          accept="image/*,.pdf"
+                          maxFiles={5}
+                          maxSize={5}
+                          uploadType="documents"
+                          onFilesChange={setIdentityProofs}
+                          initialFiles={identityProofs}
+                        />
+                      </div>
+                      <div>
+                        <Label className="text-base font-medium">
+                          Agreement Documents
+                        </Label>
+                        <p className="text-sm text-gray-600 mb-3">
+                          Upload rental agreements, NOC, etc.
+                        </p>
+                        <FileUpload
+                          accept=".pdf,.doc,.docx"
+                          maxFiles={3}
+                          maxSize={10}
+                          uploadType="documents"
+                          onFilesChange={setAgreementDocs}
+                          initialFiles={agreementDocs}
+                        />
+                      </div>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="emergency" className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-emergencyContactName">
+                          Emergency Contact Name
+                        </Label>
+                        <Input
+                          id="edit-emergencyContactName"
+                          name="emergencyContactName"
+                          placeholder="Enter emergency contact name"
+                          value={formData.emergencyContactName}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-emergencyContactPhone">
+                          Emergency Contact Phone
+                        </Label>
+                        <Input
+                          id="edit-emergencyContactPhone"
+                          name="emergencyContactPhone"
+                          placeholder="Enter emergency contact phone"
+                          value={formData.emergencyContactPhone}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-emergencyContactRelation">
+                          Relationship
+                        </Label>
+                        <Select
+                          value={formData.emergencyContactRelation}
+                          onValueChange={(value) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              emergencyContactRelation: value,
+                            }))
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select relationship" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Father">Father</SelectItem>
+                            <SelectItem value="Mother">Mother</SelectItem>
+                            <SelectItem value="Spouse">Spouse</SelectItem>
+                            <SelectItem value="Sibling">Sibling</SelectItem>
+                            <SelectItem value="Friend">Friend</SelectItem>
+                            <SelectItem value="Other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                  </TabsContent>
+                </Tabs>
+
+                <Button type="submit" className="w-full">
+                  <Edit className="w-4 h-4 mr-2" />
+                  Update Tenant
+                </Button>
+              </form>
+            </DialogContent>
+          </Dialog>
         </main>
       </div>
     </div>
