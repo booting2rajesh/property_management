@@ -887,7 +887,11 @@ const Properties = () => {
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {getFilteredUnits(selectedProperty).map((unit) => (
-                          <Card key={unit.id}>
+                          <Card
+                            key={unit.id}
+                            className="hover:shadow-lg transition-shadow cursor-pointer"
+                            onClick={() => viewUnitDetails(unit)}
+                          >
                             <CardContent className="p-4">
                               <div className="flex items-center justify-between mb-2">
                                 <h5 className="font-semibold">
@@ -902,7 +906,7 @@ const Properties = () => {
                                   </span>
                                 </Badge>
                               </div>
-                              <div className="text-sm space-y-1">
+                              <div className="text-sm space-y-1 mb-3">
                                 <p>
                                   <span className="font-medium">Type:</span>{" "}
                                   {unit.type}
@@ -935,6 +939,51 @@ const Properties = () => {
                                     </p>
                                   </div>
                                 )}
+                              </div>
+
+                              {/* Unit Image Preview */}
+                              {unit.images.length > 0 && (
+                                <div className="mb-3">
+                                  <img
+                                    src={
+                                      unit.images.find((img) => img.isPrimary)
+                                        ?.url || unit.images[0]?.url
+                                    }
+                                    alt={unit.unitNumber}
+                                    className="w-full h-24 object-cover rounded"
+                                  />
+                                  {unit.images.length > 1 && (
+                                    <Badge className="absolute top-1 right-1 text-xs">
+                                      +{unit.images.length - 1} more
+                                    </Badge>
+                                  )}
+                                </div>
+                              )}
+
+                              {/* Action Buttons */}
+                              <div className="flex gap-2 pt-2 border-t">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  className="flex-1"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    viewUnitDetails(unit);
+                                  }}
+                                >
+                                  <Eye className="w-4 h-4 mr-1" />
+                                  View
+                                </Button>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    editUnitDetails(unit);
+                                  }}
+                                >
+                                  <Edit className="w-4 h-4" />
+                                </Button>
                               </div>
                             </CardContent>
                           </Card>
