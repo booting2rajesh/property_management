@@ -89,6 +89,9 @@ const Properties = () => {
   const [isPropertyDetailOpen, setIsPropertyDetailOpen] = useState(false);
   const [isEditPropertyOpen, setIsEditPropertyOpen] = useState(false);
   const [isAddUnitOpen, setIsAddUnitOpen] = useState(false);
+  const [isUnitDetailOpen, setIsUnitDetailOpen] = useState(false);
+  const [isEditUnitOpen, setIsEditUnitOpen] = useState(false);
+  const [selectedUnit, setSelectedUnit] = useState<Unit | null>(null);
   const [unitStatusFilter, setUnitStatusFilter] = useState<string>("all");
 
   const [propertyFormData, setPropertyFormData] = useState({
