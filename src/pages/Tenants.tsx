@@ -1279,10 +1279,19 @@ const Tenants = () => {
                   </TabsContent>
                 </Tabs>
 
-                <Button type="submit" className="w-full">
-                  <Edit className="w-4 h-4 mr-2" />
-                  Update Tenant
-                </Button>
+                <div className="flex gap-4">
+                  <Button type="submit" className="flex-1">
+                    <Edit className="w-4 h-4 mr-2" />
+                    Update Tenant
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => setIsEditModalOpen(false)}
+                  >
+                    Cancel
+                  </Button>
+                </div>
               </form>
             </DialogContent>
           </Dialog>
