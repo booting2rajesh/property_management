@@ -272,6 +272,15 @@ const Properties = () => {
     }));
   };
 
+  const handleUnitInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setUnitFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   const handleAmenityChange = (amenity: string, checked: boolean) => {
     setPropertyFormData((prev) => ({
       ...prev,
