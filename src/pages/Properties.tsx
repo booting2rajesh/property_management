@@ -684,10 +684,7 @@ const Properties = () => {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => {
-                        setSelectedProperty(property);
-                        setIsEditPropertyOpen(true);
-                      }}
+                      onClick={() => openEditProperty(property)}
                     >
                       <Edit className="w-4 h-4" />
                     </Button>
