@@ -774,6 +774,28 @@ const Tenants = () => {
                         {badge}
                       </Badge>
                     ))}
+
+                    {/* Document Status Badges */}
+                    <Badge
+                      variant={
+                        tenant.identityProofs.length > 0 ? "default" : "outline"
+                      }
+                      className="text-xs"
+                    >
+                      <FileText className="w-3 h-3 mr-1" />
+                      ID: {tenant.identityProofs.length}
+                    </Badge>
+                    <Badge
+                      variant={
+                        tenant.agreementDocuments.length > 0
+                          ? "default"
+                          : "outline"
+                      }
+                      className="text-xs"
+                    >
+                      <Shield className="w-3 h-3 mr-1" />
+                      Docs: {tenant.agreementDocuments.length}
+                    </Badge>
                   </div>
                 </CardContent>
               </Card>
