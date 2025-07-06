@@ -47,6 +47,7 @@ import {
   Upload as UploadIcon,
   Image as ImageIcon,
   Filter,
+  User,
 } from "lucide-react";
 
 interface Unit {
