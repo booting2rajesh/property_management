@@ -415,6 +415,76 @@ const Properties = () => {
     setIsAddUnitOpen(true);
   };
 
+  const viewUnitDetails = (unit: Unit) => {
+    setSelectedUnit(unit);
+    setIsUnitDetailOpen(true);
+  };
+
+  const editUnitDetails = (unit: Unit) => {
+    setSelectedUnit(unit);
+    setUnitFormData({
+      unitNumber: unit.unitNumber,
+      type: unit.type,
+      floor: unit.floor.toString(),
+      size: unit.size.replace(" sq ft", ""),
+      rent: unit.rent.replace("₹", ""),
+      advance: unit.advance?.replace("₹", "") || "",
+      description: unit.description || "",
+      amenities: unit.amenities,
+    });
+    setUnitImages(unit.images);
+    setIsEditUnitOpen(true);
+  };
+
+  const handleEditUnit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedUnit || !selectedProperty) return;
+
+    const updatedUnit: Unit = {
+      ...selectedUnit,
+      unitNumber: unitFormData.unitNumber,
+      type: unitFormData.type,
+      size: `${unitFormData.size} sq ft`,
+      floor: parseInt(unitFormData.floor),
+      rent: `₹${unitFormData.rent}`,
+      advance: `₹${unitFormData.advance}`,
+      amenities: unitFormData.amenities,
+      images: unitImages,
+      description: unitFormData.description,
+    };
+
+    // Update the unit in the property's units array
+    const updatedProperty = {
+      ...selectedProperty,
+      units: selectedProperty.units.map((unit) =>
+        unit.id === selectedUnit.id ? updatedUnit : unit,
+      ),
+    };
+
+    // Update the properties state
+    setProperties((prev) =>
+      prev.map((prop) =>
+        prop.id === selectedProperty.id ? updatedProperty : prop,
+      ),
+    );
+
+    setIsEditUnitOpen(false);
+    setSelectedUnit(null);
+
+    // Reset form
+    setUnitFormData({
+      unitNumber: "",
+      type: "",
+      floor: "",
+      size: "",
+      rent: "",
+      advance: "",
+      description: "",
+      amenities: [],
+    });
+    setUnitImages([]);
+  };
+
   const viewPropertyDetails = (property: Property) => {
     setSelectedProperty(property);
     setIsPropertyDetailOpen(true);
