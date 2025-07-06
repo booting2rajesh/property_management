@@ -1295,6 +1295,375 @@ const Properties = () => {
               </form>
             </DialogContent>
           </Dialog>
+
+          {/* Unit Details Modal */}
+          <Dialog open={isUnitDetailOpen} onOpenChange={setIsUnitDetailOpen}>
+            <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto">
+              {selectedUnit && (
+                <>
+                  <DialogHeader>
+                    <DialogTitle className="flex items-center gap-2">
+                      <Building className="w-5 h-5" />
+                      Unit {selectedUnit.unitNumber}
+                      <Badge
+                        variant={getStatusBadgeVariant(selectedUnit.status)}
+                      >
+                        {getStatusIcon(selectedUnit.status)}
+                        <span className="ml-1 capitalize">
+                          {selectedUnit.status}
+                        </span>
+                      </Badge>
+                    </DialogTitle>
+                  </DialogHeader>
+
+                  <Tabs defaultValue="details" className="space-y-4">
+                    <TabsList className="grid w-full grid-cols-3">
+                      <TabsTrigger value="details">Unit Details</TabsTrigger>
+                      <TabsTrigger value="gallery">
+                        Photo Gallery ({selectedUnit.images.length})
+                      </TabsTrigger>
+                      <TabsTrigger value="tenant">Tenant Info</TabsTrigger>
+                    </TabsList>
+
+                    <TabsContent value="details" className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <h4 className="font-semibold mb-3">
+                            Unit Information
+                          </h4>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Type:</span>
+                              <span className="font-medium">
+                                {selectedUnit.type}
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Size:</span>
+                              <span className="font-medium">
+                                {selectedUnit.size}
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Floor:</span>
+                              <span className="font-medium">
+                                {selectedUnit.floor}
+                              </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <span className="text-gray-600">Rent:</span>
+                              <span className="font-medium text-green-600">
+                                {selectedUnit.rent}
+                              </span>
+                            </div>
+                            {selectedUnit.advance && (
+                              <div className="flex justify-between">
+                                <span className="text-gray-600">Deposit:</span>
+                                <span className="font-medium">
+                                  {selectedUnit.advance}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+
+                        <div>
+                          <h4 className="font-semibold mb-3">Amenities</h4>
+                          <div className="flex flex-wrap gap-2">
+                            {selectedUnit.amenities.map((amenity) => (
+                              <Badge key={amenity} variant="secondary">
+                                {amenity}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+
+                      {selectedUnit.description && (
+                        <div>
+                          <h4 className="font-semibold mb-2">Description</h4>
+                          <p className="text-gray-700">
+                            {selectedUnit.description}
+                          </p>
+                        </div>
+                      )}
+
+                      <div className="flex gap-2 pt-4 border-t">
+                        <Button
+                          onClick={() => editUnitDetails(selectedUnit)}
+                          className="bg-primary hover:bg-primary/90"
+                        >
+                          <Edit className="w-4 h-4 mr-2" />
+                          Edit Unit
+                        </Button>
+                      </div>
+                    </TabsContent>
+
+                    <TabsContent value="gallery" className="space-y-4">
+                      {selectedUnit.images.length > 0 ? (
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                          {selectedUnit.images.map((image) => (
+                            <div key={image.id} className="relative">
+                              <img
+                                src={image.url}
+                                alt={image.name}
+                                className="w-full h-32 object-cover rounded cursor-pointer hover:opacity-80 transition-opacity"
+                                onClick={() => window.open(image.url, "_blank")}
+                              />
+                              {image.isPrimary && (
+                                <Badge className="absolute top-1 left-1">
+                                  <Star className="w-3 h-3 mr-1 fill-current" />
+                                  Primary
+                                </Badge>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="text-center py-8">
+                          <ImageIcon className="w-12 h-12 mx-auto text-gray-400 mb-2" />
+                          <p className="text-gray-500 mb-4">
+                            No photos uploaded
+                          </p>
+                          <Button
+                            onClick={() => editUnitDetails(selectedUnit)}
+                            variant="outline"
+                          >
+                            <UploadIcon className="w-4 h-4 mr-2" />
+                            Upload Photos
+                          </Button>
+                        </div>
+                      )}
+                    </TabsContent>
+
+                    <TabsContent value="tenant" className="space-y-4">
+                      {selectedUnit.tenant ? (
+                        <div className="space-y-4">
+                          <h4 className="font-semibold">Current Tenant</h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <Label className="text-sm font-medium text-gray-500">
+                                Name
+                              </Label>
+                              <p className="mt-1">{selectedUnit.tenant.name}</p>
+                            </div>
+                            <div>
+                              <Label className="text-sm font-medium text-gray-500">
+                                Phone
+                              </Label>
+                              <p className="mt-1">
+                                {selectedUnit.tenant.phone}
+                              </p>
+                            </div>
+                            <div>
+                              <Label className="text-sm font-medium text-gray-500">
+                                Move-in Date
+                              </Label>
+                              <p className="mt-1">
+                                {selectedUnit.tenant.moveInDate}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="text-center py-8">
+                          <User className="w-12 h-12 mx-auto text-gray-400 mb-2" />
+                          <p className="text-gray-500">No tenant assigned</p>
+                        </div>
+                      )}
+                    </TabsContent>
+                  </Tabs>
+                </>
+              )}
+            </DialogContent>
+          </Dialog>
+
+          {/* Edit Unit Modal (from Property) */}
+          <Dialog open={isEditUnitOpen} onOpenChange={setIsEditUnitOpen}>
+            <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Edit Unit {selectedUnit?.unitNumber}</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleEditUnit} className="space-y-6">
+                <Tabs defaultValue="details" className="space-y-4">
+                  <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="details">Unit Details</TabsTrigger>
+                    <TabsTrigger value="photos">Photos</TabsTrigger>
+                    <TabsTrigger value="amenities">Amenities</TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="details" className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-unit-unitNumber">
+                          Unit Number
+                        </Label>
+                        <Input
+                          id="edit-unit-unitNumber"
+                          name="unitNumber"
+                          placeholder="e.g., A-101"
+                          value={unitFormData.unitNumber}
+                          onChange={handleUnitInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-unit-type">Unit Type</Label>
+                        <Select
+                          value={unitFormData.type}
+                          onValueChange={(value) =>
+                            setUnitFormData((prev) => ({
+                              ...prev,
+                              type: value,
+                            }))
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="1BHK">1BHK</SelectItem>
+                            <SelectItem value="2BHK">2BHK</SelectItem>
+                            <SelectItem value="3BHK">3BHK</SelectItem>
+                            <SelectItem value="4BHK">4BHK</SelectItem>
+                            <SelectItem value="Studio">Studio</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-unit-floor">Floor</Label>
+                        <Input
+                          id="edit-unit-floor"
+                          name="floor"
+                          type="number"
+                          placeholder="Floor number"
+                          value={unitFormData.floor}
+                          onChange={handleUnitInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-unit-size">Size (sq ft)</Label>
+                        <Input
+                          id="edit-unit-size"
+                          name="size"
+                          type="number"
+                          placeholder="Size in sq ft"
+                          value={unitFormData.size}
+                          onChange={handleUnitInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-unit-rent">Monthly Rent</Label>
+                        <Input
+                          id="edit-unit-rent"
+                          name="rent"
+                          type="number"
+                          placeholder="Monthly rent amount"
+                          value={unitFormData.rent}
+                          onChange={handleUnitInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-unit-advance">
+                          Security Deposit
+                        </Label>
+                        <Input
+                          id="edit-unit-advance"
+                          name="advance"
+                          type="number"
+                          placeholder="Security deposit amount"
+                          value={unitFormData.advance}
+                          onChange={handleUnitInputChange}
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="edit-unit-description">Description</Label>
+                      <Textarea
+                        id="edit-unit-description"
+                        name="description"
+                        placeholder="Describe the unit features and highlights"
+                        value={unitFormData.description}
+                        onChange={handleUnitInputChange}
+                        rows={3}
+                      />
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="photos" className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Unit Photos</Label>
+                      <p className="text-sm text-gray-600">
+                        Upload high-quality photos of the unit. Select a primary
+                        image to be featured.
+                      </p>
+                      <FileUpload
+                        accept="image/*"
+                        maxFiles={15}
+                        maxSize={5}
+                        uploadType="images"
+                        allowPrimarySelection={true}
+                        onFilesChange={setUnitImages}
+                        initialFiles={unitImages}
+                      />
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="amenities" className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Select Unit Amenities</Label>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {[
+                          "Balcony",
+                          "Modular Kitchen",
+                          "Wardrobe",
+                          "AC",
+                          "Geyser",
+                          "Furnished",
+                          "Semi-Furnished",
+                          "Master Bedroom",
+                          "Attached Bathroom",
+                          "Separate Entrance",
+                          "Parking",
+                          "Storage Room",
+                        ].map((amenity) => (
+                          <div
+                            key={amenity}
+                            className="flex items-center space-x-2"
+                          >
+                            <Checkbox
+                              id={`edit-unit-${amenity}`}
+                              checked={unitFormData.amenities.includes(amenity)}
+                              onCheckedChange={(checked) =>
+                                handleUnitAmenityChange(
+                                  amenity,
+                                  checked as boolean,
+                                )
+                              }
+                            />
+                            <Label
+                              htmlFor={`edit-unit-${amenity}`}
+                              className="text-sm"
+                            >
+                              {amenity}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </TabsContent>
+                </Tabs>
+
+                <Button type="submit" className="w-full">
+                  <Edit className="w-4 h-4 mr-2" />
+                  Update Unit
+                </Button>
+              </form>
+            </DialogContent>
+          </Dialog>
         </main>
       </div>
     </div>
