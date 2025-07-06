@@ -1001,14 +1001,22 @@ const Tenants = () => {
           <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
             <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
               <DialogHeader>
-                <DialogTitle>Edit Tenant - {selectedTenant?.name}</DialogTitle>
+                <DialogTitle className="flex items-center gap-2">
+                  <Edit className="w-5 h-5" />
+                  Edit Tenant - {selectedTenant?.name}
+                  <Badge variant="outline" className="text-xs">
+                    {identityProofs.length + agreementDocs.length} documents
+                  </Badge>
+                </DialogTitle>
               </DialogHeader>
               <form onSubmit={handleEditTenant} className="space-y-6">
                 <Tabs defaultValue="personal" className="space-y-4">
                   <TabsList className="grid w-full grid-cols-4">
                     <TabsTrigger value="personal">Personal</TabsTrigger>
                     <TabsTrigger value="rental">Rental Info</TabsTrigger>
-                    <TabsTrigger value="documents">Documents</TabsTrigger>
+                    <TabsTrigger value="documents">
+                      Documents ({identityProofs.length + agreementDocs.length})
+                    </TabsTrigger>
                     <TabsTrigger value="emergency">Emergency</TabsTrigger>
                   </TabsList>
 
