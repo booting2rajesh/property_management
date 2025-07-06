@@ -259,12 +259,51 @@ const Units = () => {
       floor: unit.floor.toString(),
       size: unit.size.replace(" sq ft", ""),
       rent: unit.rent.replace("₹", ""),
-      advance: unit.advance.replace("₹", ""),
+      advance: unit.advance ? unit.advance.replace("₹", "") : "",
       description: unit.description,
       amenities: unit.amenities,
     });
     setUnitImages(unit.images);
     setIsEditModalOpen(true);
+  };
+
+  const handleEditUnit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedUnit) return;
+
+    const updatedUnit: Unit = {
+      ...selectedUnit,
+      unitNumber: formData.unitNumber,
+      type: formData.type,
+      size: `${formData.size} sq ft`,
+      floor: parseInt(formData.floor),
+      rent: `₹${formData.rent}`,
+      advance: `₹${formData.advance}`,
+      amenities: formData.amenities,
+      images: unitImages,
+      description: formData.description,
+      lastUpdated: new Date().toISOString().split("T")[0],
+    };
+
+    setUnits((prev) =>
+      prev.map((unit) => (unit.id === selectedUnit.id ? updatedUnit : unit)),
+    );
+
+    setIsEditModalOpen(false);
+    setSelectedUnit(null);
+
+    // Reset form
+    setFormData({
+      unitNumber: "",
+      type: "",
+      floor: "",
+      size: "",
+      rent: "",
+      advance: "",
+      description: "",
+      amenities: [],
+    });
+    setUnitImages([]);
   };
 
   const getStatusVariant = (status: string) => {
