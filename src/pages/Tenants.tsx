@@ -269,6 +269,63 @@ const Tenants = () => {
     setAgreementDocs([]);
   };
 
+  const handleEditTenant = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedTenant) return;
+
+    const updatedTenant: Tenant = {
+      ...selectedTenant,
+      name: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      unit: formData.unit,
+      propertyName: formData.propertyName,
+      monthlyRent: `₹${formData.monthlyRent}`,
+      advance: `₹${formData.advance}`,
+      personalInfo: {
+        aadhaarNumber: formData.aadhaarNumber,
+        emergencyContactName: formData.emergencyContactName,
+        emergencyContactPhone: formData.emergencyContactPhone,
+        emergencyContactRelation: formData.emergencyContactRelation,
+        permanentAddress: formData.permanentAddress,
+        occupation: formData.occupation,
+        monthlyIncome: formData.monthlyIncome,
+      },
+      identityProofs: identityProofs,
+      agreementDocuments: agreementDocs,
+    };
+
+    setTenants((prev) =>
+      prev.map((tenant) =>
+        tenant.id === selectedTenant.id ? updatedTenant : tenant,
+      ),
+    );
+
+    setIsEditModalOpen(false);
+    setSelectedTenant(null);
+
+    // Reset form
+    setFormData({
+      fullName: "",
+      email: "",
+      phone: "",
+      unit: "",
+      propertyName: "",
+      monthlyRent: "",
+      advance: "",
+      occupancyDate: "",
+      aadhaarNumber: "",
+      emergencyContactName: "",
+      emergencyContactPhone: "",
+      emergencyContactRelation: "",
+      permanentAddress: "",
+      occupation: "",
+      monthlyIncome: "",
+    });
+    setIdentityProofs([]);
+    setAgreementDocs([]);
+  };
+
   const viewTenant = (tenant: Tenant) => {
     setSelectedTenant(tenant);
     setIsViewModalOpen(true);
