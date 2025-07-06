@@ -259,7 +259,7 @@ const Units = () => {
       floor: unit.floor.toString(),
       size: unit.size.replace(" sq ft", ""),
       rent: unit.rent.replace("₹", ""),
-      advance: unit.advance ? unit.advance.replace("₹", "") : "",
+      advance: unit.advance ? unit.advance.replace("��", "") : "",
       description: unit.description,
       amenities: unit.amenities,
     });
@@ -894,6 +894,174 @@ const Units = () => {
                   </Tabs>
                 </>
               )}
+            </DialogContent>
+          </Dialog>
+
+          {/* Edit Unit Modal */}
+          <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+            <DialogContent className="sm:max-w-[800px] max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Edit Unit {selectedUnit?.unitNumber}</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleEditUnit} className="space-y-6">
+                <Tabs defaultValue="details" className="space-y-4">
+                  <TabsList className="grid w-full grid-cols-3">
+                    <TabsTrigger value="details">Unit Details</TabsTrigger>
+                    <TabsTrigger value="photos">Photos</TabsTrigger>
+                    <TabsTrigger value="amenities">Amenities</TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="details" className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-unitNumber">Unit Number</Label>
+                        <Input
+                          id="edit-unitNumber"
+                          name="unitNumber"
+                          placeholder="e.g., A-101"
+                          value={formData.unitNumber}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-type">Unit Type</Label>
+                        <Select
+                          value={formData.type}
+                          onValueChange={(value) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              type: value,
+                            }))
+                          }
+                        >
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select type" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="1BHK">1BHK</SelectItem>
+                            <SelectItem value="2BHK">2BHK</SelectItem>
+                            <SelectItem value="3BHK">3BHK</SelectItem>
+                            <SelectItem value="4BHK">4BHK</SelectItem>
+                            <SelectItem value="Studio">Studio</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-floor">Floor</Label>
+                        <Input
+                          id="edit-floor"
+                          name="floor"
+                          type="number"
+                          placeholder="Floor number"
+                          value={formData.floor}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-size">Size (sq ft)</Label>
+                        <Input
+                          id="edit-size"
+                          name="size"
+                          type="number"
+                          placeholder="Size in sq ft"
+                          value={formData.size}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-rent">Monthly Rent</Label>
+                        <Input
+                          id="edit-rent"
+                          name="rent"
+                          type="number"
+                          placeholder="Monthly rent amount"
+                          value={formData.rent}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="edit-advance">Security Deposit</Label>
+                        <Input
+                          id="edit-advance"
+                          name="advance"
+                          type="number"
+                          placeholder="Security deposit amount"
+                          value={formData.advance}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="edit-description">Description</Label>
+                      <Textarea
+                        id="edit-description"
+                        name="description"
+                        placeholder="Describe the unit features and highlights"
+                        value={formData.description}
+                        onChange={handleInputChange}
+                        rows={3}
+                      />
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="photos" className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Unit Photos</Label>
+                      <p className="text-sm text-gray-600">
+                        Upload high-quality photos of the unit. The first photo
+                        will be used as the primary image.
+                      </p>
+                      <FileUpload
+                        accept="image/*"
+                        maxFiles={15}
+                        maxSize={5}
+                        uploadType="images"
+                        allowPrimarySelection={true}
+                        onFilesChange={setUnitImages}
+                        initialFiles={unitImages}
+                      />
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="amenities" className="space-y-4">
+                    <div className="space-y-2">
+                      <Label>Select Amenities</Label>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {availableAmenities.map((amenity) => (
+                          <div
+                            key={amenity}
+                            className="flex items-center space-x-2"
+                          >
+                            <Checkbox
+                              id={`edit-${amenity}`}
+                              checked={formData.amenities.includes(amenity)}
+                              onCheckedChange={(checked) =>
+                                handleAmenityChange(amenity, checked as boolean)
+                              }
+                            />
+                            <Label
+                              htmlFor={`edit-${amenity}`}
+                              className="text-sm"
+                            >
+                              {amenity}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </TabsContent>
+                </Tabs>
+
+                <Button type="submit" className="w-full">
+                  <Edit className="w-4 h-4 mr-2" />
+                  Update Unit
+                </Button>
+              </form>
             </DialogContent>
           </Dialog>
         </main>
