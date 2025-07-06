@@ -147,6 +147,28 @@ const Units = () => {
       description:
         "Spacious 2BHK unit with modern amenities and great natural light.",
       lastUpdated: "2024-01-15",
+      tenantHistory: [
+        {
+          tenantName: "Raj Kumar",
+          moveInDate: "2023-06-01",
+          rent: "₹25,000",
+          status: "current",
+        },
+        {
+          tenantName: "Priya Sharma",
+          moveInDate: "2022-03-01",
+          moveOutDate: "2023-05-31",
+          rent: "₹22,000",
+          status: "previous",
+        },
+        {
+          tenantName: "Amit Patel",
+          moveInDate: "2021-08-01",
+          moveOutDate: "2022-02-28",
+          rent: "₹20,000",
+          status: "previous",
+        },
+      ],
     },
     {
       id: 2,
@@ -170,6 +192,15 @@ const Units = () => {
       ],
       description: "Premium 3BHK unit available for immediate move-in.",
       lastUpdated: "2024-01-10",
+      tenantHistory: [
+        {
+          tenantName: "Sita Devi",
+          moveInDate: "2023-01-01",
+          moveOutDate: "2023-12-31",
+          rent: "₹26,000",
+          status: "previous",
+        },
+      ],
     },
     {
       id: 3,
@@ -184,6 +215,15 @@ const Units = () => {
       images: [],
       description: "Under maintenance - will be available soon.",
       lastUpdated: "2024-01-05",
+      tenantHistory: [
+        {
+          tenantName: "Ravi Reddy",
+          moveInDate: "2023-08-01",
+          moveOutDate: "2024-01-01",
+          rent: "₹23,000",
+          status: "previous",
+        },
+      ],
     },
   ]);
 
