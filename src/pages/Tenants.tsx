@@ -350,8 +350,9 @@ const Tenants = () => {
       occupation: tenant.personalInfo.occupation,
       monthlyIncome: tenant.personalInfo.monthlyIncome,
     });
-    setIdentityProofs(tenant.identityProofs);
-    setAgreementDocs(tenant.agreementDocuments);
+    // Deep copy the existing documents to avoid reference issues
+    setIdentityProofs([...tenant.identityProofs]);
+    setAgreementDocs([...tenant.agreementDocuments]);
     setIsEditModalOpen(true);
   };
 
