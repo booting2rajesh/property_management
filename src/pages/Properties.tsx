@@ -290,6 +290,15 @@ const Properties = () => {
     }));
   };
 
+  const handleUnitAmenityChange = (amenity: string, checked: boolean) => {
+    setUnitFormData((prev) => ({
+      ...prev,
+      amenities: checked
+        ? [...prev.amenities, amenity]
+        : prev.amenities.filter((a) => a !== amenity),
+    }));
+  };
+
   const handleAddProperty = (e: React.FormEvent) => {
     e.preventDefault();
 
