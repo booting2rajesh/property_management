@@ -45,6 +45,14 @@ import {
   Upload as UploadIcon,
 } from "lucide-react";
 
+interface TenantHistory {
+  tenantName: string;
+  moveInDate: string;
+  moveOutDate?: string;
+  rent: string;
+  status: "current" | "previous";
+}
+
 interface Unit {
   id: number;
   unitNumber: string;
@@ -52,7 +60,7 @@ interface Unit {
   size: string;
   floor: number;
   rent: string;
-  advance: string;
+  advance?: string;
   status: "occupied" | "vacant" | "maintenance";
   tenant?: {
     name: string;
@@ -63,6 +71,7 @@ interface Unit {
   images: UploadedFile[];
   description: string;
   lastUpdated: string;
+  tenantHistory: TenantHistory[];
 }
 
 const Units = () => {
