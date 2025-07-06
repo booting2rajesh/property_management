@@ -806,12 +806,15 @@ const Units = () => {
                   </DialogHeader>
 
                   <Tabs defaultValue="details" className="space-y-4">
-                    <TabsList className="grid w-full grid-cols-3">
+                    <TabsList className="grid w-full grid-cols-4">
                       <TabsTrigger value="details">Unit Details</TabsTrigger>
                       <TabsTrigger value="gallery">
                         Photo Gallery ({selectedUnit.images.length})
                       </TabsTrigger>
-                      <TabsTrigger value="tenant">Tenant Info</TabsTrigger>
+                      <TabsTrigger value="tenant">Current Tenant</TabsTrigger>
+                      <TabsTrigger value="history">
+                        Tenant History ({selectedUnit.tenantHistory.length})
+                      </TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="details" className="space-y-4">
