@@ -2,13 +2,15 @@
   "name": "fusion-starter",
   "private": true,
   "type": "module",
-  "homepage": "https://github.com/booting2rajesh/property_management",
+  "homepage": "https://booting2rajesh.github.io/property_management",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "test": "vitest --run",
     "format.fix": "prettier --write .",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
